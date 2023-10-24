@@ -36,24 +36,19 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role_id' => 1, // Defineix el valor del rol "author" (1) quan es crea un nou usuari
         ]);
-
 
         event(new Registered($user));
 
-
         Auth::login($user);
-
 
         $user->sendEmailVerificationNotification();
 
-
         return redirect(RouteServiceProvider::HOME);
     }
-
 }
