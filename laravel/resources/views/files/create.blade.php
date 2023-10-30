@@ -4,7 +4,7 @@
     <title>Subir Archivo</title>
 </head>
 <body>
-    <!--
+
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -14,7 +14,7 @@
         </ul>
     </div>
     @endif
-    -->
+
     <form method="post" action="{{ route('files.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -76,7 +77,21 @@ class FileController extends Controller
      */
     public function show(File $file)
     {
-        //
+        // Obtener la ruta del archivo almacenada en la base de datos
+        $filePath = $file->filepath;
+    
+        // Verificar si el archivo existe en el disco
+        if (Storage::disk('public')->exists($filePath)) {
+            // Construir la URL del archivo utilizando el método asset
+            $fileUrl = asset("storage/{$filePath}");
+    
+            return view("files.show", [
+                'file' => $file,
+                'fileUrl' => $fileUrl,
+            ]);
+        } else {
+            return redirect()->route('files.index')->with('error', 'Archivo no encontrado');
+        }
     }
 
     /**
@@ -84,7 +99,7 @@ class FileController extends Controller
      */
     public function edit(File $file)
     {
-        //
+        return view('files.edit', ['file' => $file]);
     }
 
     /**
@@ -92,7 +107,37 @@ class FileController extends Controller
      */
     public function update(Request $request, File $file)
     {
-        //
+        // Validar que el archivo sea una imagen (jpg, png o gif) y que pese menos de 2MB
+        $validatedData = $request->validate([
+            'newFile' => 'required|image|mimes:jpg,png,gif|max:2048', // Max size in kilobytes (2MB)
+        ]);
+    
+        // Obtener el nuevo archivo
+        $newFile = $request->file('newFile');
+        $fileName = $newFile->getClientOriginalName();
+        $fileSize = $newFile->getSize();
+    
+        // Almacenar el nuevo archivo en el disco public (directorio storage/public/uploads)
+        $newFileName = time() . '_' . $fileName;
+        $newFilePath = $newFile->storeAs(
+            'uploads',    // Ruta
+            $newFileName, // Nombre de archivo
+            'public'      // Disco
+        );
+    
+        if (Storage::disk('public')->exists($newFilePath)) {
+            // Eliminar el archivo anterior
+            Storage::disk('public')->delete($file->filepath);
+    
+            // Actualizar los datos del archivo en la base de datos
+            $file->filepath = $newFilePath;
+            $file->filesize = $fileSize;
+            $file->save();
+    
+            return redirect()->route('files.show', $file)->with('success', 'Archivo actualizado correctamente');
+        } else {
+            return redirect()->route('files.edit', $file)->with('error', 'Error al actualizar el archivo');
+        }
     }
 
     /**
@@ -100,6 +145,19 @@ class FileController extends Controller
      */
     public function destroy(File $file)
     {
-        //
+        // Obtener la ruta del archivo almacenada en la base de datos
+        $filePath = $file->filepath;
+    
+        if (Storage::disk('public')->exists($filePath)) {
+            // Eliminar el archivo del disco
+            Storage::disk('public')->delete($filePath);
+    
+            // Eliminar el registro de la base de datos
+            $file->delete();
+    
+            return redirect()->route('files.index')->with('success', 'Archivo eliminado correctamente');
+        } else {
+            return redirect()->route('files.show', $file)->with('error', 'Error al eliminar el archivo');
+        }
     }
 }
