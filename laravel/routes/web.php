@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,5 +35,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('mail/test', [MailController::class, 'test']);
+
+Route::resource('files', FileController::class);
 
 require __DIR__.'/auth.php';
