@@ -71,6 +71,11 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
+    
+        if (!$post) {
+            return redirect()->route('posts.index')->with('error', 'El post no se encontró');
+        }
+    
         $likesCount = $post->likes; // Obtener el número de likes desde el modelo Post
         return view('posts.show', compact('post', 'likesCount'));
     }
@@ -162,5 +167,16 @@ class PostController extends Controller
         $post->save();
     
         return redirect()->route('posts.show', $post->id)->with('success', 'El post se actualizó correctamente');
+    }
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Realiza una consulta para buscar posts que coincidan con la consulta
+        $posts = Post::where('title', 'like', "%$query%")
+                    ->orWhere('content', 'like', "%$query%")
+                    ->get();
+
+        return view('posts.index', compact('posts'));
     }
 }

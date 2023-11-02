@@ -5,6 +5,14 @@
         <h1 class="text-2xl font-bold mb-4" style="color: #FF801F">Lista de Posts</h1>
         <a href="{{ route('posts.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover-bg-blue-600">Crear Post</a>
 
+        <!-- Formulario de búsqueda -->
+        <form action="{{ route('posts.search') }}" method="GET" class="mt-4">
+            <div class="mb-4">
+                <input type="text" name="query" placeholder="Buscar..." class="w-full p-2 border rounded">
+            </div>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover-bg-blue-600">Buscar</button>
+        </form>
+
         <table class="w-full mt-4">
             <thead>
                 <tr>
