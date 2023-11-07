@@ -15,7 +15,7 @@ class PlacesController extends Controller
      */
     public function index()
     {
-        $places = Place::all();
+        $places = Place::paginate(5);
         return view('places.index', compact('places'));
     }
 
