@@ -81,6 +81,11 @@ class PlacesController extends Controller
     public function show($id)
     {
         $place = Place::find($id);
+
+        if (!$place) {
+            return redirect()->route('places.index')->with('error', 'El post no se encontró');
+        }
+
         return view('places.show', compact('place'));
     }
 
@@ -160,5 +165,18 @@ class PlacesController extends Controller
         $place->delete();
 
         return redirect()->route('places.index')->with('success', 'Lugar eliminado correctamente');
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        if ($search) {
+            $places = Place::where('description', 'like', '%'.$search.'%')->paginate(5);
+        } else {
+            $places = Place::paginate(5);
+        }
+
+        return view('places.index', compact('places'));
     }
 }

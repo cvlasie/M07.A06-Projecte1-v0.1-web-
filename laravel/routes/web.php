@@ -42,4 +42,6 @@ Route::resource('places', PlacesController::class)->middleware(['auth', 'role:2'
 
 Route::resource('files', FileController::class)->middleware(['auth', 'role:2']);
 
+Route::get('/places/search', 'PlacesController@search')->name('places.search');
+
 require __DIR__.'/auth.php';

@@ -4,6 +4,12 @@
 <div class="container">
     <h1>Llocs</h1>
     <a href="{{ route('places.create') }}" class="btn btn-primary">Afegir Nou Lloc</a>
+    <form action="{{ route('places.index') }}" method="GET">
+        <div class="form-group">
+            <input type="text" class="form-control" name="search" placeholder="Cerca en Places">
+            <button type="submit" class="btn btn-primary mt-2">Cerca</button>
+        </div>
+    </form>
     <div class="mt-4">
         @foreach ($places as $place)
             <div class="card mb-3">
