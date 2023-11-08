@@ -31,12 +31,18 @@
             <form method="POST" action="{{ route('comments.store', $post->id) }}">
                 @csrf
                 <textarea name="content" class="w-full p-2" placeholder="Agrega un comentario" required></textarea>
+
+                <!-- Mostrar errores aquí para comentarios -->
+                @error('content')
+                    <p class="text-red-500">{{ $message }}</p>
+                @enderror
+
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-2">Comentar</button>
             </form>
         </div>
 
-        <!-- Mostrar los comentarios -->
-        <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+        <!-- Mostrar los comentarios con una barra de desplazamiento -->
+        <div class="bg-white p-4 rounded-lg shadow-md mb-4" style="max-height: 200px; overflow-y: auto;">
             <h3 class="text-lg font-semibold" style="color: #FF801F">Comentarios</h3>
             <ul>
                 @foreach ($post->comments as $comment)

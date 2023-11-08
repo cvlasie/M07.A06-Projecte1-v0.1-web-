@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Comment;
 
 class PostController extends Controller
 {
@@ -171,12 +172,16 @@ class PostController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
-
+    
         // Realiza una consulta para buscar posts que coincidan con la consulta
         $posts = Post::where('title', 'like', "%$query%")
                     ->orWhere('content', 'like', "%$query%")
                     ->get();
-
-        return view('posts.index', compact('posts'));
-    }
+    
+        if ($posts->isEmpty()) {
+            return redirect()->back()->with('error', 'No se encontraron resultados para la búsqueda: ' . $query);
+        }
+    
+        return view('posts.index', compact('posts', 'query'));
+    }    
 }
