@@ -42,7 +42,7 @@ Route::resource('places', PlacesController::class)->middleware(['auth', 'role:2'
 
 Route::resource('files', FileController::class)->middleware(['auth', 'role:2']);
 
-Route::get('/places/{id}', [PlacesController::class, 'show'])->name('places.show');
+Route::get('/places/view/{id}', [PlacesController::class, 'show'])->middleware('auth')->name('places.view');
 
 Route::get('/places/search', [PlacesController::class, 'search'])->name('places.search');
 require __DIR__.'/auth.php';
