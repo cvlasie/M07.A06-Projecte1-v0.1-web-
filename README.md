@@ -1,4 +1,4 @@
-# 2daw-m07-geomir-backend-laravel10
+# PROJECTE B0.2
 Backend del projecte GeoMir de 2DAW. Curs 2023-2024.
 
 Laravel 10 amb Debugbar, Breeze i Tailwind.
