@@ -195,4 +195,23 @@ class PostController extends Controller
             'post' => $post
         ]);
     }
+
+    public function like(Post $post)
+    {
+        // Afegir un 'like' al post actual per l'usuari autenticat
+        $post->liked()->attach(auth()->user()->id);
+        
+        // Lògica per afegir un 'like'
+        return redirect()->back();
+    }
+
+    public function unlike(Post $post)
+    {
+        // Eliminar el 'like' del post actual per l'usuari autenticat
+        $post->liked()->detach(auth()->user()->id);
+        
+        // Lògica per eliminar un 'like'
+        return redirect()->back();
+    }
+
 }
