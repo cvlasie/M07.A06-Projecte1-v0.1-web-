@@ -7,5 +7,3 @@ Fitxers extra:
 
 * index.php: Redirigeix a laravel/public/index.php
 * laravel/.htaccess: Redirigeix TOTES les peticions al directori public
-
-.
