@@ -106,12 +106,18 @@ class PlaceController extends Controller
      */
     public function show(Place $place)
     {
+        $isFavorited = auth()->user() ? $place->favorited->contains(auth()->user()->id) : false;
+        $favoritesCount = $place->favorited->count();
+
         return view("places.show", [
-            'place'  => $place,
-            'file'   => $place->file,
-            'author' => $place->user,
+            'place'          => $place,
+            'file'           => $place->file,
+            'author'         => $place->user,
+            'isFavorited'    => $isFavorited,
+            'favoritesCount' => $favoritesCount,
         ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.

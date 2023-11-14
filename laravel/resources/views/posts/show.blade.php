@@ -9,6 +9,7 @@
     @section('column-1')
         <img class="w-full" src="{{ asset('storage/'.$file->filepath) }}" title="Image preview"/>
     @endsection
+
     @section('column-2')
         <table class="table">
             <tbody>                
@@ -42,10 +43,11 @@
                 </tr>
             </tbody>
         </table>
+
         <div class="mt-8">
             <x-primary-button href="{{ route('posts.edit', $post) }}">
                 {{ __('Edit') }}
-            </x-danger-button>
+            </x-primary-button>
             <x-danger-button href="{{ route('posts.delete', $post) }}">
                 {{ __('Delete') }}
             </x-danger-button>
@@ -53,6 +55,26 @@
                 {{ __('Back to list') }}
             </x-secondary-button>
         </div>
+
+        {{-- Botó de Like/Unlike --}}
+        @auth
+            @if ($isLiked)
+                <form action="{{ route('posts.unlike', $post) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Unlike</button>
+                </form>
+            @else
+                <form action="{{ route('posts.like', $post) }}" method="POST">
+                    @csrf
+                    <button type="submit">Like</button>
+                </form>
+            @endif
+        @endauth
+
+        {{-- Comptador de Likes --}}
+        <p>Likes: {{ $likesCount }}</p>
+
     @endsection
 </x-columns>
 @endsection
