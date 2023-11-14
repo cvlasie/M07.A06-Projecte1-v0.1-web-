@@ -27,4 +27,8 @@ class Place extends Model
     {
         return $this->belongsTo(User::class, 'author_id');
     }
+    public function favorited()
+    {
+        return $this->belongsToMany(User::class, 'favorites');
+    }
 }
