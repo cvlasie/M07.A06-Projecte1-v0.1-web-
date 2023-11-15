@@ -9,6 +9,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PlaceController;
+use App\Http\Controllers\HomeController;
 
 use App\Models\Role;
 
@@ -68,6 +69,8 @@ Route::resource('places', PlaceController::class)
 
 Route::get('places/{place}/delete', [PlaceController::class, 'delete'])->name('places.delete')
     ->middleware(['auth', 'role.any:' . implode(',', [Role::ADMIN, Role::AUTHOR])]);
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Rutas para "likes"
 Route::post('/posts/{post}/likes', 'PostController@like')->name('posts.like');
