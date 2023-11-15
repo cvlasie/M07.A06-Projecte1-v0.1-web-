@@ -73,9 +73,10 @@ Route::get('places/{place}/delete', [PlaceController::class, 'delete'])->name('p
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Rutas para "likes"
-Route::post('/posts/{post}/likes', 'PostController@like')->name('posts.like');
-Route::delete('/posts/{post}/likes', 'PostController@unlike')->name('posts.unlike');
+Route::post('/posts/{post}/likes', [PostController::class, 'like'])->name('posts.like');
+Route::delete('/posts/{post}/likes', [PostController::class, 'unlike'])->name('posts.unlike');
 
 // Rutas para "favoritos"
-Route::post('/places/{place}/favorites', 'PlaceController@favorite')->name('places.favorite');
-Route::delete('/places/{place}/favorites', 'PlaceController@unfavorite')->name('places.unfavorite');
+Route::post('/places/{place}/favorites', [PlaceController::class, 'favorite'])->name('places.favorite');
+Route::delete('/places/{place}/favorites', [PlaceController::class, 'unfavorite'])->name('places.unfavorite');
+

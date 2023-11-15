@@ -17,9 +17,73 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
+     public function like(Request $request, Post $post)
+     {
+         $user = auth()->user();
+     
+         // Verificar si el usuario ya le dio like al post
+         if (!$post->likes()->where('user_id', $user->id)->exists()) {
+             // Agregar like
+             $post->likes()->attach($user->id);
+             $message = 'Post liked successfully';
+         } else {
+             $message = 'Post already liked by the user';
+         }
+     
+         // Actualizar los likes_count en el modelo Post
+         $post->loadCount('likes');
+     
+         // Obtén el usuario autenticado (si estás utilizando autenticación)
+         $user = auth()->user();
+     
+         // Verifica si el usuario autenticado ha dado like al post
+         $liked = $user ? $post->likes->contains($user->id) : false;
+     
+         return view("posts.show", [
+             'post'   => $post,
+             'file'   => $post->file,
+             'author' => $post->user,
+             'liked'  => $liked,
+             'message' => $message,
+         ]);
+     }
+     
+     public function unlike(Request $request, Post $post)
+     {
+         $user = auth()->user();
+     
+         // Verificar si el usuario le dio like al post
+         if ($post->likes()->where('user_id', $user->id)->exists()) {
+             // Eliminar like
+             $post->likes()->detach($user->id);
+             $message = 'Post unliked successfully';
+         } else {
+             $message = 'User has not liked the post';
+         }
+     
+         // Actualizar los likes_count en el modelo Post
+         $post->loadCount('likes');
+     
+         // Obtén el usuario autenticado (si estás utilizando autenticación)
+         $user = auth()->user();
+     
+         // Verifica si el usuario autenticado ha dado like al post
+         $liked = $user ? $post->likes->contains($user->id) : false;
+     
+         return view("posts.show", [
+             'post'   => $post,
+             'file'   => $post->file,
+             'author' => $post->user,
+             'liked'  => $liked,
+             'message' => $message,
+         ]);
+     }     
+
     public function index(Request $request)
     {
-        $collectionQuery = Post::orderBy('created_date', 'desc');
+        $collectionQuery = Post::withCount('likes')->orderBy('created_date', 'desc');
 
         // Filter?
         if ($search = $request->get('search')) {
@@ -102,10 +166,19 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $post->loadCount('likes'); 
+    
+        // Obtén el usuario autenticado (si estás utilizando autenticación)
+        $user = auth()->user();
+    
+        // Verifica si el usuario autenticado ha dado like al post
+        $liked = $user ? $post->likes->contains($user->id) : false;
+    
         return view("posts.show", [
             'post'   => $post,
             'file'   => $post->file,
             'author' => $post->user,
+            'liked'  => $liked,
         ]);
     }
 
