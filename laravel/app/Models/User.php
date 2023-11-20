@@ -46,8 +46,7 @@ class User extends Authenticatable implements FilamentUser
     
     public function canAccessFilament(): bool
     {
-        // Verificar si el usuario tiene el rol de "admin" o "editor"
-        return in_array($this->role, ['admin', 'editor']);
+        return true;
     }
 
     public function likes()
@@ -58,5 +57,10 @@ class User extends Authenticatable implements FilamentUser
     public function favorites()
     {
         return $this->belongsToMany(Place::class, 'favorites');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }
