@@ -102,15 +102,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $isLiked = auth()->user() ? $post->liked->contains(auth()->user()->id) : false;
-        $likesCount = $post->liked->count();
 
         return view("posts.show", [
-            'post'       => $post,
-            'file'       => $post->file,
-            'author'     => $post->user,
-            'isLiked'    => $isLiked,
-            'likesCount' => $likesCount,
+            'post'   => $post,
+            'file'   => $post->file,
+            'author' => $post->user,
         ]);
     }
 
@@ -200,24 +196,6 @@ class PostController extends Controller
         return view("posts.delete", [
             'post' => $post
         ]);
-    }
-
-    public function like(Post $post)
-    {
-        // Afegir un 'like' al post actual per l'usuari autenticat
-        $post->liked()->attach(auth()->user()->id);
-        
-        // Lògica per afegir un 'like'
-        return redirect()->back();
-    }
-
-    public function unlike(Post $post)
-    {
-        // Eliminar el 'like' del post actual per l'usuari autenticat
-        $post->liked()->detach(auth()->user()->id);
-
-        // Lògica per eliminar un 'like'
-        return redirect()->back();
     }
 
 }

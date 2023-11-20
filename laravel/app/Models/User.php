@@ -43,11 +43,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function likes()
-    {
-        return $this->belongsToMany(Post::class, 'likes');
-    }
-
     public function favorites()
     {
         return $this->belongsToMany(Place::class, 'favorites');

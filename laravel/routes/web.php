@@ -53,14 +53,6 @@ Route::resource('files', FileController::class)
 Route::get('files/{file}/delete', [FileController::class, 'delete'])->name('files.delete')
     ->middleware(['auth', 'role:' . Role::ADMIN]);
 
-// Posts
-
-Route::resource('posts', PostController::class)
-    ->middleware(['auth', 'role.any:' . implode(',', [Role::ADMIN, Role::AUTHOR])]);
-
-Route::get('posts/{post}/delete', [PostController::class, 'delete'])->name('posts.delete')
-    ->middleware(['auth', 'role.any:' . implode(',', [Role::ADMIN, Role::AUTHOR])]);
-
 // Places
 
 Route::resource('places', PlaceController::class)
@@ -68,10 +60,6 @@ Route::resource('places', PlaceController::class)
 
 Route::get('places/{place}/delete', [PlaceController::class, 'delete'])->name('places.delete')
     ->middleware(['auth', 'role.any:' . implode(',', [Role::ADMIN, Role::AUTHOR])]);
-
-// Rutes per a 'posts'
-Route::post('/posts/{post}/likes', [PostController::class, 'like'])->name('posts.like');
-Route::delete('/posts/{post}/likes', [PostController::class, 'unlike'])->name('posts.unlike');
 
 // Rutes per a 'places'
 Route::post('/places/{place}/favorites', [PlaceController::class, 'favorite'])->name('places.favorite');
