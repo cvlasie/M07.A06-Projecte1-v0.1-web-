@@ -182,6 +182,7 @@ class PostController extends Controller
         ]);
     }
 
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -268,4 +269,5 @@ class PostController extends Controller
             'post' => $post
         ]);
     }
+
 }

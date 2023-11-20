@@ -9,6 +9,7 @@
     @section('column-1')
         <img class="w-full" src="{{ asset('storage/'.$file->filepath) }}" title="Image preview"/>
     @endsection
+
     @section('column-2')
         <table class="table">
             <tbody>                
@@ -47,6 +48,7 @@
                 </tr>
             </tbody>
         </table>
+
         <div class="mt-8">
             <!-- Lógica para mostrar los botones de editar, eliminar y volver -->
             <x-primary-button href="{{ route('posts.edit', $post) }}">

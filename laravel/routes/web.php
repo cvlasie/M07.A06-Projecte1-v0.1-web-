@@ -54,14 +54,6 @@ Route::resource('files', FileController::class)
 Route::get('files/{file}/delete', [FileController::class, 'delete'])->name('files.delete')
     ->middleware(['auth', 'role:' . Role::ADMIN]);
 
-// Posts
-
-Route::resource('posts', PostController::class)
-    ->middleware(['auth', 'role.any:' . implode(',', [Role::ADMIN, Role::AUTHOR])]);
-
-Route::get('posts/{post}/delete', [PostController::class, 'delete'])->name('posts.delete')
-    ->middleware(['auth', 'role.any:' . implode(',', [Role::ADMIN, Role::AUTHOR])]);
-
 // Places
 
 Route::resource('places', PlaceController::class)

@@ -9,6 +9,7 @@
     @section('column-1')
         <img class="w-full" src="{{ asset('storage/'.$file->filepath) }}" title="Image preview"/>
     @endsection
+
     @section('column-2')
         <table class="table">
             <tbody>
@@ -46,10 +47,11 @@
                 </tr>
             </tbody>
         </table>
+
         <div class="mt-8">
             <x-primary-button href="{{ route('places.edit', $place) }}">
                 {{ __('Edit') }}
-            </x-danger-button>
+            </x-primary-button>
             <x-danger-button href="{{ route('places.delete', $place) }}">
                 {{ __('Delete') }}
             </x-danger-button>
@@ -57,6 +59,26 @@
                 {{ __('Back to list') }}
             </x-secondary-button>
         </div>
+
+        {{-- Botó de Favorite/Unfavorite --}}
+        @auth
+            @if ($isFavorited)
+                <form action="{{ route('places.unfavorite', $place) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Remove Favorite</button>
+                </form>
+            @else
+                <form action="{{ route('places.favorite', $place) }}" method="POST">
+                    @csrf
+                    <button type="submit">Add to Favorites</button>
+                </form>
+            @endif
+        @endauth
+
+        {{-- Comptador de Favorites --}}
+        <p>Favorites: {{ $favoritesCount }}</p>
+        
     @endsection
 </x-columns>
 @endsection

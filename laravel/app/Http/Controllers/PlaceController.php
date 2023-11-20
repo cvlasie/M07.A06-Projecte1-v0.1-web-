@@ -106,12 +106,18 @@ class PlaceController extends Controller
      */
     public function show(Place $place)
     {
+        $isFavorited = auth()->user() ? $place->favorited->contains(auth()->user()->id) : false;
+        $favoritesCount = $place->favorited->count();
+
         return view("places.show", [
-            'place'  => $place,
-            'file'   => $place->file,
-            'author' => $place->user,
+            'place'          => $place,
+            'file'           => $place->file,
+            'author'         => $place->user,
+            'isFavorited'    => $isFavorited,
+            'favoritesCount' => $favoritesCount,
         ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -202,4 +208,23 @@ class PlaceController extends Controller
             'place' => $place
         ]);
     }
+
+    public function favorite(Place $place)
+    {
+        // Afegir un 'favorite' al place actual per l'usuari autenticat
+        $place->favorited()->attach(auth()->user()->id);
+        
+        // Lògica per afegir un 'favorite'
+        return redirect()->back();
+    }
+
+    public function unfavorite(Place $place)
+    {
+        // Eliminar el 'favorite' del place actual per l'usuari autenticat
+        $place->favorited()->detach(auth()->user()->id);
+
+        // Lògica per eliminar un 'favorite'
+        return redirect()->back();
+    }
+
 }
