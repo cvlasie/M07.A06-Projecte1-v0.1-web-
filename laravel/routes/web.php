@@ -54,6 +54,14 @@ Route::resource('files', FileController::class)
 Route::get('files/{file}/delete', [FileController::class, 'delete'])->name('files.delete')
     ->middleware(['auth', 'role:' . Role::ADMIN]);
 
+// Posts
+
+Route::resource('posts', PostController::class)
+    ->middleware(['auth', 'role.any:' . implode(',', [Role::ADMIN, Role::AUTHOR])]);
+
+Route::get('posts/{post}/delete', [PostController::class, 'delete'])->name('posts.delete')
+    ->middleware(['auth', 'role.any:' . implode(',', [Role::ADMIN, Role::AUTHOR])]);
+
 // Places
 
 Route::resource('places', PlaceController::class)
@@ -71,4 +79,3 @@ Route::delete('/posts/{post}/likes', [PostController::class, 'unlike'])->name('p
 // Rutas para "favoritos"
 Route::post('/places/{place}/favorites', [PlaceController::class, 'favorite'])->name('places.favorite');
 Route::delete('/places/{place}/favorites', [PlaceController::class, 'unfavorite'])->name('places.unfavorite');
-
