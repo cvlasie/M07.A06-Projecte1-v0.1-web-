@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
+use App\Models\File; 
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,6 +14,9 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Livewire\TemporaryUploadedFile;
 
 class PostResource extends Resource
 {
@@ -24,21 +28,54 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('file_id')
-                    ->required(),
-                Select::make('author_id')
-                    ->relationship('user', 'name')
-                    ->default(auth()->id())
-                    ->required(),
-                Forms\Components\RichEditor::make('body')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('latitude')
-                    ->required(),
-                Forms\Components\TextInput::make('longitude')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('created_date'),
+                Forms\Components\Fieldset::make('File')
+                    ->relationship('file')
+                    ->saveRelationshipsWhenHidden()
+                    ->schema([
+                        Forms\Components\FileUpload::make('filepath') // Puedes agregar más campos aquí si es necesario
+                            ->required()
+                            ->image()
+                            ->maxSize(2048)
+                            ->directory('uploads')
+                            ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                                return time() . '_' . $file->getClientOriginalName();
+                            }),
+                    ]),
+                Forms\Components\Fieldset::make('Post / Place')
+                    ->schema([
+                        Forms\Components\Hidden::make('file_id'),
+                        Select::make('author_id')
+                            ->relationship('user', 'name')
+                            ->default(auth()->id())
+                            ->required(),
+                        Forms\Components\RichEditor::make('body')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('latitude')
+                            ->required(),
+                        Forms\Components\TextInput::make('longitude')
+                            ->required(),
+                        Forms\Components\DateTimePicker::make('created_date'),
+                    ]),
             ]);
+    }
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        Log::debug("Mutate create form with file relationship");
+
+        // Almacenar el archivo
+        $filePath = array_values($this->data['file']['filepath'])[0];
+        $fileSize = Storage::disk('public')->size($filePath);
+        $file = File::create([
+            'filepath' => $filePath,
+            'filesize' => $fileSize,
+        ]);
+
+        // Almacenar el ID del archivo
+        $data['file_id'] = $file->id;
+
+        return $data;
     }
 
     public static function table(Table $table): Table
@@ -67,14 +104,14 @@ class PostResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -83,5 +120,5 @@ class PostResource extends Resource
             'view' => Pages\ViewPost::route('/{record}'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
-    }    
+    }
 }
