@@ -3,19 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
-use App\Models\File; 
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Livewire\TemporaryUploadedFile;
 
 class PostResource extends Resource
@@ -58,24 +52,6 @@ class PostResource extends Resource
                         Forms\Components\DateTimePicker::make('created_date'),
                     ]),
             ]);
-    }
-
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        Log::debug("Mutate create form with file relationship");
-
-        // Almacenar el archivo
-        $filePath = array_values($this->data['file']['filepath'])[0];
-        $fileSize = Storage::disk('public')->size($filePath);
-        $file = File::create([
-            'filepath' => $filePath,
-            'filesize' => $fileSize,
-        ]);
-
-        // Almacenar el ID del archivo
-        $data['file_id'] = $file->id;
-
-        return $data;
     }
 
     public static function table(Table $table): Table
