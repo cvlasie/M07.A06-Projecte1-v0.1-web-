@@ -44,10 +44,6 @@ class User extends Authenticatable implements FilamentUser
         'password' => 'hashed',
     ];
     
-    public function canAccessFilament(): bool
-    {
-        return true;
-    }
 
     public function likes()
     {
@@ -62,5 +58,16 @@ class User extends Authenticatable implements FilamentUser
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Determina si el usuario tiene acceso al panel de administración de Filament.
+     *
+     * @return bool
+     */
+    public function canAccessFilament(): bool
+    {
+        // Verifica si el usuario tiene el rol de "admin" o "editor".
+        return in_array($this->role->name, ['admin', 'editor']);
     }
 }
