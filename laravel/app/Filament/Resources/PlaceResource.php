@@ -19,6 +19,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Support\Facades\Auth;
+use Livewire\TemporaryUploadedFile;
 
 class PlaceResource extends Resource
 {
@@ -30,23 +31,38 @@ class PlaceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\RichEditor::make('description')
-                    ->required(),
-                Forms\Components\FileUpload::make('upload')
-                    ->required()
-                    ->image()
-                    ->maxSize(2048),
-                Forms\Components\TextInput::make('latitude')
-                    ->required(),
-                Forms\Components\TextInput::make('longitude')
-                    ->required(),
-                Forms\Components\Select::make('author_id')
-                    ->relationship('user', 'name')
-                    ->default(Auth::id())
-                    ->required(),
-                // Afegeix aquí més camps segons les teves necessitats
+                Forms\Components\Fieldset::make('File')
+                    ->relationship('file')
+                    ->saveRelationshipsWhenHidden()
+                    ->schema([
+                        Forms\Components\FileUpload::make('filepath')
+                            ->required() 
+                            ->image() 
+                            ->maxSize(2048) 
+                            ->directory('uploads') 
+                            ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                                return time() . '_' . $file->getClientOriginalName();
+                            }), 
+                        // Camps recurs File...
+                    ]),
+                Forms\Components\Fieldset::make('Place')
+                    ->schema([
+                        Forms\Components\Hidden::make('file_id')
+                            ->required(),
+                        Forms\Components\TextInput::make('name')
+                            ->required(),
+                        
+                        Forms\Components\RichEditor::make('description')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('author_id')
+                            ->relationship('user', 'name')
+                            ->default(Auth::id())
+                            ->required(),
+                        // Afegeix aquí més camps segons les teves necessitats
+                        // Altres camps específics de Place...
+                    ]),
+                
             ]);
     }
 
