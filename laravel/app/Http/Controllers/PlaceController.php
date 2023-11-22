@@ -215,7 +215,7 @@ class PlaceController extends Controller
         $place->favorited()->attach(auth()->user()->id);
         
         // Lògica per afegir un 'favorite'
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Place added to favorites');
     }
 
     public function unfavorite(Place $place)
@@ -224,12 +224,12 @@ class PlaceController extends Controller
         $place->favorited()->detach(auth()->user()->id);
 
         // Lògica per eliminar un 'favorite'
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Place removed from favorites');
     }
 
     public function __construct()
     {
         $this->authorizeResource(Place::class, 'place');
     }
-    
+
 }

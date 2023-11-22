@@ -67,18 +67,20 @@
 
         {{-- Botó de Favorite/Unfavorite --}}
         @auth
-            @if ($isFavorited)
-                <form action="{{ route('places.unfavorite', $place) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Remove Favorite</button>
-                </form>
-            @else
-                <form action="{{ route('places.favorite', $place) }}" method="POST">
-                    @csrf
-                    <button type="submit">Add to Favorites</button>
-                </form>
-            @endif
+            @can('favorite', $place)
+                @if ($isFavorited)
+                    <form action="{{ route('places.unfavorite', $place) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">Remove Favorite</button>
+                    </form>
+                @else
+                    <form action="{{ route('places.favorite', $place) }}" method="POST">
+                        @csrf
+                        <button type="submit">Add to Favorites</button>
+                    </form>
+                @endif
+            @endcan
         @endauth
 
         {{-- Comptador de Favorites --}}

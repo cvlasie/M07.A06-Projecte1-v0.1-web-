@@ -67,6 +67,11 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::post('/posts/{post}/likes', [PostController::class, 'like'])->name('posts.like');
 Route::delete('/posts/{post}/likes', [PostController::class, 'unlike'])->name('posts.unlike');
 
-// Rutas para "favoritos"
-Route::post('/places/{place}/favorites', [PlaceController::class, 'favorite'])->name('places.favorite');
-Route::delete('/places/{place}/favorites', [PlaceController::class, 'unfavorite'])->name('places.unfavorite');
+// Rutes per a favorits en llocs (places)
+Route::post('/places/{place}/favorite', [PlaceController::class, 'addFavorite'])
+    ->name('places.favorite')
+    ->middleware('can:favorite,place');
+
+Route::delete('/places/{place}/unfavorite', [PlaceController::class, 'removeFavorite'])
+    ->name('places.unfavorite')
+    ->middleware('can:favorite,place');
