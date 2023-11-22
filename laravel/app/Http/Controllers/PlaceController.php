@@ -227,4 +227,9 @@ class PlaceController extends Controller
         return redirect()->back();
     }
 
+    public function __construct()
+    {
+        $this->authorizeResource(Place::class, 'place');
+    }
+    
 }

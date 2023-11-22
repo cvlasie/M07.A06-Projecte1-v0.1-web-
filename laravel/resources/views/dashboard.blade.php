@@ -15,7 +15,9 @@
     <x-primary-button href="{{ url('/posts') }}">
         📑 {{ __('Posts') }}        
     </x-primary-button>
-    <x-primary-button href="{{ url('/places') }}">
-        📍 {{ __('Places') }}
-    </x-primary-button>
+    @can('viewAny', App\Models\Place::class)
+        <x-primary-button href="{{ url('/places') }}">
+            📍 {{ __('Places') }}
+        </x-primary-button>
+    @endcan
 @endsection

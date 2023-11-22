@@ -28,9 +28,11 @@
     </div>
     <!-- Buttons -->
     <div class="mt-8">
-        <x-primary-button href="{{ route('places.create') }}">
-            {{ __('Add new place') }}
-        </x-primary-button>
+        @can('create', App\Models\Place::class)
+            <x-primary-button href="{{ route('places.create') }}">
+                {{ __('Add new place') }}
+            </x-primary-button>
+        @endcan
         <x-secondary-button href="{{ route('dashboard') }}">
             {{ __('Back to dashboard') }}
         </x-secondary-button>
