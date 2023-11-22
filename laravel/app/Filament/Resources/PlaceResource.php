@@ -35,7 +35,7 @@ class PlaceResource extends Resource
                     ->relationship('file')
                     ->saveRelationshipsWhenHidden()
                     ->schema([
-                        Forms\Components\FileUpload::make('upload')
+                        Forms\Components\FileUpload::make('filepath')
                             ->required() 
                             ->image() 
                             ->maxSize(2048) 
@@ -76,7 +76,7 @@ class PlaceResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('description'),
                 Tables\Columns\TextColumn::make('author_id'),
-                Tables\Columns\TextColumn::make('created_date'),
+                Tables\Columns\TextColumn::make('author_id'),
 
                 // Altres columnes...
             ])
