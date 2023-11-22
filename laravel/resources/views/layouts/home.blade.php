@@ -1,31 +1,26 @@
-<!-- resources/views/home.blade.php -->
+<x-geomir-layout class="bg-fons-principal">
+    <header class="bg-taronja p-6 mb-4 relative flex items-center justify-between">
+        <div class="flex items-center">
+            <h1 class="text-2xl font-extrabold text-fons-principal font-montserrat text-taronja">GeoPic</h1>
+        </div>
+        <img src="{{ asset('img/heart.svg') }}" class="w-6 h-6" alt="Heart Icon" />
+    </header>
 
-<x-app-layout>
-    <x-slot name="header">
-        <h1 class="text-4xl font-bold text-fons-principal">GeoMIR</h1>
-    </x-slot>
-
-    <div class="bg-crema text-black font-sans">
-
-        <!-- Contenido Principal -->
-        <main class="container mx-auto my-8">
-
-            <!-- Sección Destacada -->
-            <section class="bg-fons-principal p-8 rounded-lg shadow-lg mb-8">
-                <h2 class="text-taronja text-2xl font-bold mb-4">Títol Destacat</h2>
-                <p class="text-gray-800">Contingut de la secció destacada...</p>
-            </section>
-
-            <!-- Otras secciones, listas, tablas, formularios, etc. -->
-
-        </main>
-
-        <!-- Pie de Página -->
-        <footer class="bg-taronja text-morat p-4">
-            <p class="text-sm">&copy; 2023 La Teva Empresa</p>
-        </footer>
-
-    </div>
+    <body>
+        <div class="bg-fons-principal p-8">
+            <!-- Contenido de la aplicación -->
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="{{ asset('img/pic.png') }}" class="w-8 h-8 rounded-full" alt="User Image" />
+                    <div class="ml-2 text-fons-secundari">
+                        <p class="font-bold">ies.joaquimmir_</p>
+                        <p class="font-bold">40.765475392857844, -73.97644553247858</p>
+                    </div>
+                </div>
+                <img src="{{ asset('img/options.svg') }}" class="" alt="Options Icon" />
+            </div>
+        </div>
+    </body>
 
     <style>
         /* Definición de colores personalizados */
@@ -54,6 +49,10 @@
             color: var(--color-taronja-clar);
         }
 
+        .bg-fons-principal {
+            background-color: var(--color-fons-principal);
+        }
+
         .text-fons-principal {
             color: var(--color-fons-principal);
         }
@@ -74,4 +73,4 @@
             color: var(--color-fons-secundari);
         }
     </style>
-</x-app-layout>
+</x-geomir-layout>
