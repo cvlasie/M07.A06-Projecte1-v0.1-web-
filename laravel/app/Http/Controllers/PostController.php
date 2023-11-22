@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Post::class, 'post');
+    }
+
     private bool $_pagination = true;
 
     /**

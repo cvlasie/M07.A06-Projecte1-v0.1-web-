@@ -24,9 +24,11 @@
             <x-text-input type="text" name="longitude" id="longitude" class="block mt-1 w-full" value="1.7282036" />
         </div>
         <div class="mt-8">
-            <x-primary-button>
-                {{ __('Create') }}
-            </x-primary-button>
+            @can('create', App\Models\Post::class)
+                <x-primary-button>
+                    {{ __('Create') }}
+                </x-primary-button>
+            @endcan
             <x-secondary-button type="reset">
                 {{ __('Reset') }}
             </x-secondary-button>

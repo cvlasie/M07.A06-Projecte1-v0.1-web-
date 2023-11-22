@@ -5,5 +5,9 @@
 @endsection
 
 @section('box-content')
-    <x-confirm-delete-form parentRoute='posts' :model=$post />
+    @can('delete', $post)
+        <x-confirm-delete-form parentRoute='posts' :model=$post />
+    @else
+        <p>{{ __('You do not have permission to delete this post.') }}</p>
+    @endcan
 @endsection

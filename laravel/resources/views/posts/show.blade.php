@@ -51,12 +51,16 @@
 
         <div class="mt-8">
             <!-- Lógica para mostrar los botones de editar, eliminar y volver -->
-            <x-primary-button href="{{ route('posts.edit', $post) }}">
-                {{ __('Edit') }}
-            </x-primary-button>
-            <x-danger-button href="{{ route('posts.delete', $post) }}">
-                {{ __('Delete') }}
-            </x-danger-button>
+            @can('update', $post)
+                <x-primary-button href="{{ route('posts.edit', $post) }}">
+                    {{ __('Edit') }}
+                </x-primary-button>
+            @endcan
+            @can('delete', $post)
+                <x-danger-button href="{{ route('posts.delete', $post) }}">
+                    {{ __('Delete') }}
+                </x-danger-button>
+            @endcan
             <x-secondary-button href="{{ route('posts.index') }}">
                 {{ __('Back to list') }}
             </x-secondary-button>
