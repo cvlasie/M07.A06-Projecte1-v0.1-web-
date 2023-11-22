@@ -127,6 +127,8 @@ class PlaceController extends Controller
      */
     public function edit(Place $place)
     {
+        $this->authorize('update', $place);
+        
         return view("places.edit", [
             'place'  => $place,
             'file'   => $place->file,

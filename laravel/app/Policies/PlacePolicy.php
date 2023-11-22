@@ -14,11 +14,11 @@ class PlacePolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user)
     {
-        // Tots poden llistar i visualitzar places
-        return true;
+        return $user->hasRole('admin') || $user->hasRole('author');
     }
+
 
     /**
      * Determine whether the user can view the model.
