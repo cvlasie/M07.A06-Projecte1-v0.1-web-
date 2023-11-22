@@ -51,7 +51,6 @@ class PlaceResource extends Resource
                             ->required(),
                         Forms\Components\TextInput::make('name')
                             ->required(),
-                        
                         Forms\Components\RichEditor::make('description')
                             ->required()
                             ->maxLength(255),
@@ -59,6 +58,9 @@ class PlaceResource extends Resource
                             ->relationship('user', 'name')
                             ->default(Auth::id())
                             ->required(),
+                        Forms\Components\DateTimePicker::make('created_date')
+                            ->default(now())
+                            ->disabled(),
                         // Afegeix aquí més camps segons les teves necessitats
                         // Altres camps específics de Place...
                     ]),
@@ -70,7 +72,12 @@ class PlaceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->sortable(),
+                Tables\Columns\TextColumn::make('file_id'),
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('description'),
+                Tables\Columns\TextColumn::make('author_id'),
+                Tables\Columns\TextColumn::make('created_date'),
+
                 // Altres columnes...
             ])
             ->actions([
