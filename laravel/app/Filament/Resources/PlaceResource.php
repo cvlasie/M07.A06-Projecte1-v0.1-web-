@@ -35,7 +35,7 @@ class PlaceResource extends Resource
                     ->relationship('file')
                     ->saveRelationshipsWhenHidden()
                     ->schema([
-                        Forms\Components\FileUpload::make('filepath')
+                        Forms\Components\FileUpload::make('upload')
                             ->required() 
                             ->image() 
                             ->maxSize(2048) 
