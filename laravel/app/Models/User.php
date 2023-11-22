@@ -43,7 +43,6 @@ class User extends Authenticatable implements FilamentUser
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    
 
     public function likes()
     {
@@ -61,6 +60,19 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
+     * Verifica si el usuario tiene el rol especificado.
+     *
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole(string $role): bool
+    {
+        // Aquí puedes implementar la lógica para verificar el rol del usuario.
+        // En este ejemplo, se compara el nombre del rol con el proporcionado.
+        return $this->role->name === $role;
+    }
+
+    /**
      * Determina si el usuario tiene acceso al panel de administración de Filament.
      *
      * @return bool
@@ -68,6 +80,6 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessFilament(): bool
     {
         // Verifica si el usuario tiene el rol de "admin" o "editor".
-        return in_array($this->role->name, ['admin', 'editor']);
+        return $this->hasRole('admin') || $this->hasRole('editor');
     }
 }

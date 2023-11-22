@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Log;
 class FileController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(File::class, 'file');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -84,7 +92,7 @@ class FileController extends Controller
             'file' => $file
         ]);
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -128,7 +136,7 @@ class FileController extends Controller
         return redirect()->route("files.index")
             ->with('success', __("File succesfully deleted."));
     }
-    
+
     /**
      * Confirm specified resource deletion from storage.
      *
