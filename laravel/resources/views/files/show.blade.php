@@ -47,7 +47,7 @@
         <div class="mt-8">
             <x-primary-button href="{{ route('files.edit', $file) }}">
                 {{ __('Edit') }}
-            </x-danger-button>
+            </x-primary-button>
             <x-danger-button href="{{ route('files.delete', $file) }}">
                 {{ __('Delete') }}
             </x-danger-button>
