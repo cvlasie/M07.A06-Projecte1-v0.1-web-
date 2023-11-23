@@ -10,6 +10,8 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LanguageController;
+
 
 use App\Models\Role;
 
@@ -75,3 +77,6 @@ Route::post('/places/{place}/favorite', [PlaceController::class, 'addFavorite'])
 Route::delete('/places/{place}/unfavorite', [PlaceController::class, 'removeFavorite'])
     ->name('places.unfavorite')
     ->middleware('can:favorite,place');
+
+// Language
+Route::get('/language/{locale}', [LanguageController::class, 'language'])->name('language');
