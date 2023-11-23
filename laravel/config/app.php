@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ca',
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +97,23 @@ return [
     */
 
     'fallback_locale' => 'en',
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Available Locales
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the locales available in your application.
+    | These are used to display language options to the user.
+    |
+    */
 
+    'available_locales' => [
+        'ca' => 'Català',
+        'es' => 'Castellano',
+        'en' => 'English',
+    ],
+ 
     /*
     |--------------------------------------------------------------------------
     | Faker Locale
