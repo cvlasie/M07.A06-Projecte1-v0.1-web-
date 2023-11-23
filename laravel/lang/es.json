@@ -1,5 +1,41 @@
 {
     "File successfully saved": "Archivo guardado exitosamente",
-    "ERROR uploading file": "ERROR al subir el archivo"
+    "ERROR uploading file": "ERROR al subir el archivo",
+    "File succesfully deleted": "Archivo eliminado exitosamente",
+    
+    "Add file": "Añadir archivo",
+    "Files": "Archivos",
+    "Add new file": "Añadir nuevo archivo",
+    "Filepath": "Ruta del archivo",
+    "Filesize": "Tamaño del archivo",
+
+    "Place successfully saved": "Lugar guardado exitosamente",
+    "ERROR Uploading file": "ERROR al subir el archivo",
+    "Place successfully deleted": "Lugar eliminado exitosamente",
+    "Place added to favorites": "Lugar añadido a favoritos",
+    "Place removed from favorites": "Lugar eliminado de favoritos",
+
+    "Add place": "Añadir lugar",
+    "Name": "Nombre",
+    "Description": "Descripción",
+    "Upload": "Subir",
+    "Latitude": "Latitud",
+    "Longitude": "Longitud",
+    "Create": "Crear",
+    "Reset": "Restablecer",
+    "Back to list": "Volver a la lista",
+    "Update": "Actualizar",
+    "Places": "Lugares",
+    "Add new place": "Añadir nuevo lugar",
+    "Back to dashboard": "Volver al tablero",
+    "Edit": "Editar",
+    "Delete": "Eliminar",
+    "Remove Favorite": "Eliminar de Favoritos",
+    "Add to Favorites": "Añadir a Favoritos",
+    "Favorites": "Favoritos",
+    "ID": "ID",
+    "Author": "Autor",
+    "Created": "Creado",
+    "Updated": "Actualizado"
  }
  

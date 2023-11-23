@@ -1,5 +1,41 @@
 {
     "File successfully saved": "Fitxer desat correctament",
-    "ERROR uploading file": "ERROR pujant el fitxer"
+    "ERROR uploading file": "ERROR pujant el fitxer",
+    "File succesfully deleted": "Fitxer eliminat amb èxit",
+
+    "Add file": "Afegir fitxer",
+    "Files": "Fitxers",
+    "Add new file": "Afegir nou fitxer",
+    "Filepath": "Ruta del fitxer",
+    "Filesize": "Mida del fitxer",
+
+    "Place successfully saved": "Lloc desat correctament",
+    "ERROR Uploading file": "ERROR pujant el fitxer",
+    "Place successfully deleted": "Lloc eliminat correctament",
+    "Place added to favorites": "Lloc afegit als favorits",
+    "Place removed from favorites": "Lloc eliminat dels favorits",
+
+    "Add place": "Afegir lloc",
+    "Name": "Nom",
+    "Description": "Descripció",
+    "Upload": "Pujar",
+    "Latitude": "Latitud",
+    "Longitude": "Longitud",
+    "Create": "Crear",
+    "Reset": "Reiniciar",
+    "Back to list": "Tornar a la llista",
+    "Update": "Actualitzar",
+    "Places": "Llocs",
+    "Add new place": "Afegir nou lloc",
+    "Back to dashboard": "Tornar al tauler",
+    "Edit": "Editar",
+    "Delete": "Eliminar",
+    "Remove Favorite": "Eliminar dels Favorits",
+    "Add to Favorites": "Afegir als Favorits",
+    "Favorites": "Favorits",
+    "ID": "ID",
+    "Author": "Autor",
+    "Created": "Creat",
+    "Updated": "Actualitzat"
  }
  
