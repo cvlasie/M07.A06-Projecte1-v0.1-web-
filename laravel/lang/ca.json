@@ -1,20 +1,24 @@
 {
+    "#_N074(C0M3N7ARI1)": "FileController.php",
     "File successfully saved": "Fitxer desat correctament",
     "ERROR uploading file": "ERROR pujant el fitxer",
     "File succesfully deleted": "Fitxer eliminat amb èxit",
 
+    "#_N074(C0M3N7ARI2)": "File(Vistes Blade).php",
     "Add file": "Afegir fitxer",
     "Files": "Fitxers",
     "Add new file": "Afegir nou fitxer",
     "Filepath": "Ruta del fitxer",
     "Filesize": "Mida del fitxer",
 
+    "#_N074(C0M3N7ARI3)": "PlaceControler.php",
     "Place successfully saved": "Lloc desat correctament",
     "ERROR Uploading file": "ERROR pujant el fitxer",
     "Place successfully deleted": "Lloc eliminat correctament",
     "Place added to favorites": "Lloc afegit als favorits",
     "Place removed from favorites": "Lloc eliminat dels favorits",
 
+    "#_N074(C0M3N7ARI4)": "Place(Vistes Blade).php",
     "Add place": "Afegir lloc",
     "Name": "Nom",
     "Description": "Descripció",

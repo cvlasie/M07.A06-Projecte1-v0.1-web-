@@ -1,20 +1,24 @@
 {
+    "#_N074(C0M3N7ARI1)": "FileController.php",
     "File successfully saved": "Archivo guardado exitosamente",
     "ERROR uploading file": "ERROR al subir el archivo",
     "File succesfully deleted": "Archivo eliminado exitosamente",
     
+    "#_N074(C0M3N7ARI2)": "File(Vistes Blade).php",
     "Add file": "Añadir archivo",
     "Files": "Archivos",
     "Add new file": "Añadir nuevo archivo",
     "Filepath": "Ruta del archivo",
     "Filesize": "Tamaño del archivo",
 
+    "#_N074(C0M3N7ARI3)": "PlaceControler.php",
     "Place successfully saved": "Lugar guardado exitosamente",
     "ERROR Uploading file": "ERROR al subir el archivo",
     "Place successfully deleted": "Lugar eliminado exitosamente",
     "Place added to favorites": "Lugar añadido a favoritos",
     "Place removed from favorites": "Lugar eliminado de favoritos",
 
+    "#_N074(C0M3N7ARI4)": "Place(Vistes Blade).php",
     "Add place": "Añadir lugar",
     "Name": "Nombre",
     "Description": "Descripción",
