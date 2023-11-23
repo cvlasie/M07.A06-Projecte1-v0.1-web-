@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Post;
-use Illuminate\Auth\Access\Response;
 
 class PostPolicy
 {
@@ -48,5 +47,21 @@ class PostPolicy
     {
         return ($user->hasRole('author') && $user->id === $post->author_id) || $user->hasRole('editor');
         // Els usuaris amb rol “author” poden eliminar els seu propis posts, els usuaris amb rol “editor” poden eliminar qualsevol post
+    }
+
+    /**
+     * Determine whether the user can like the post.
+     */
+    public function like(User $user, Post $post): bool
+    {
+        return $user->hasRole('author') && !$post->likedBy($user);
+    }
+
+    /**
+     * Determine whether the user can unlike the post.
+     */
+    public function unlike(User $user, Post $post): bool
+    {
+        return $user->hasRole('author') && $post->likedBy($user);
     }
 }
