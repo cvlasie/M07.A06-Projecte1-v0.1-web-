@@ -76,7 +76,7 @@ class PlaceResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('description'),
                 Tables\Columns\TextColumn::make('author_id'),
-                Tables\Columns\TextColumn::make('author_id'),
+                Tables\Columns\TextColumn::make('created_date'),
 
                 // Altres columnes...
             ])
