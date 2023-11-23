@@ -12,9 +12,11 @@
             🗄️ {{ __('Files') }}
         </x-primary-button>
     @endcan
-    <x-primary-button href="{{ url('/posts') }}">
-        📑 {{ __('Posts') }}        
-    </x-primary-button>
+    @can('viewAny', App\Models\Post::class)
+        <x-primary-button href="{{ url('/posts') }}">
+            📑 {{ __('Posts') }}
+        </x-primary-button>
+    @endcan
     @can('viewAny', App\Models\Place::class)
         <x-primary-button href="{{ url('/places') }}">
             📍 {{ __('Places') }}
