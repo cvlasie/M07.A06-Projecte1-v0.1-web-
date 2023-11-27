@@ -1,19 +1,24 @@
 {
-    "#_N074(C0M3N7ARI1)": "File(Vistes Blade).php",
+    "#_N074(C0M3N7ARI1)": "FileController.php",
+    "File successfully saved": "Archivo guardado exitosamente",
+    "ERROR uploading file": "ERROR al subir el archivo",
+    "File succesfully deleted": "Archivo eliminado exitosamente",
+    
+    "#_N074(C0M3N7ARI2)": "File(Vistes Blade).php",
     "Add file": "Agregar archivo",
     "Files": "Archivos",
     "Add new file": "Agregar nuevo archivo",
     "Filepath": "Ruta del archivo",
     "Filesize": "Tamaño del archivo",
     
-    "#_N074(C0M3N7ARI2)": "PlaceControler.php",
+    "#_N074(C0M3N7ARI3)": "PlaceControler.php",
     "Place successfully saved": "Lugar guardado exitosamente",
     "ERROR Uploading file": "ERROR al subir el archivo",
     "Place successfully deleted": "Lugar eliminado exitosamente",
     "Place added to favorites": "Lugar agregado a favoritos",
     "Place removed from favorites": "Lugar eliminado de favoritos",
     
-    "#_N074(C0M3N7ARI3)": "Place(Vistes Blade).php",
+    "#_N074(C0M3N7ARI4)": "Place(Vistes Blade).php",
     "Add place": "Agregar lugar",
     "Name": "Nombre",
     "Description": "Descripción",
@@ -37,7 +42,7 @@
     "Created": "Creado",
     "Updated": "Actualizado",
     
-    "#_N074(C0M3N7ARI4)": "PostController.php",
+    "#_N074(C0M3N7ARI5)": "PostController.php",
     "Post liked successfully": "Publicación marcada como favorita exitosamente",
     "Post already liked by the user": "Esta publicación ya ha sido marcada como favorita por el usuario",
     "Post unliked successfully": "Publicación desmarcada como favorita exitosamente",
@@ -45,7 +50,7 @@
     "Post successfully saved": "Publicación guardada exitosamente",
     "Post successfully deleted": "Publicación eliminada exitosamente",
     
-    "#_N074(C0M3N7ARI5)": "Post(Vistes Blade).php",
+    "#_N074(C0M3N7ARI6)": "Post(Vistes Blade).php",
     "Add post": "Agregar publicación",
     "Posts": "Publicaciones",
     "Add new post": "Agregar nueva publicación"
