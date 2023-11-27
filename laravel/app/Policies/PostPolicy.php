@@ -12,7 +12,7 @@ class PostPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true; // TOTHOM pot llistar i visualitzar posts
+        return $user->hasRole('admin') || $user->hasRole('author');
     }
 
     /**
