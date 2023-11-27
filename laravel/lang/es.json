@@ -3,7 +3,7 @@
     "File successfully saved": "Archivo guardado exitosamente",
     "ERROR uploading file": "ERROR al subir el archivo",
     "File succesfully deleted": "Archivo eliminado exitosamente",
-    
+
     "#_N074(C0M3N7ARI2)": "File(Vistes Blade).php",
     "Add file": "Añadir archivo",
     "Files": "Archivos",
@@ -40,6 +40,14 @@
     "ID": "ID",
     "Author": "Autor",
     "Created": "Creado",
-    "Updated": "Actualizado"
- }
- 
+    "Updated": "Actualizado",
+
+    "#_N074(C0M3N7ARI1)": "PostController.php",
+    "Post liked successfully": "Post marcado como favorito exitosamente",
+    "Post already liked by the user": "Este post ya ha sido marcado como favorito por el usuario",
+    "Post unliked successfully": "Post desmarcado como favorito exitosamente",
+    "User has not liked the post": "El usuario no ha marcado este post como favorito",
+    "Post successfully saved": "Post guardado exitosamente",
+    "ERROR Uploading file": "ERROR al subir el archivo",
+    "Post successfully deleted": "Post eliminado exitosamente"
+}

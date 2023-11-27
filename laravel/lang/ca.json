@@ -40,6 +40,14 @@
     "ID": "ID",
     "Author": "Autor",
     "Created": "Creat",
-    "Updated": "Actualitzat"
- }
- 
+    "Updated": "Actualitzat",
+
+    "#_N074(C0M3N7ARI1)": "PostController.php",
+    "Post liked successfully": "Post marcat com a favorit amb èxit",
+    "Post already liked by the user": "Aquest post ja ha estat marcat com a favorit pel usuari",
+    "Post unliked successfully": "Post desmarcat com a favorit amb èxit",
+    "User has not liked the post": "L'usuari no ha marcat aquest post com a favorit",
+    "Post successfully saved": "Post guardat amb èxit",
+    "ERROR Uploading file": "ERROR pujant el fitxer",
+    "Post successfully deleted": "Post eliminat amb èxit"
+}
