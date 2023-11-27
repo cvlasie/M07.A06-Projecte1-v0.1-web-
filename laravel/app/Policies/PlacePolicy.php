@@ -77,7 +77,7 @@ class PlacePolicy
 
     public function favorite(User $user, Place $place)
     {
-        return $user->role === 'author';
+        return $user->hasRole('admin');
     }
 
 }

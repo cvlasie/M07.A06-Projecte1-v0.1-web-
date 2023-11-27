@@ -72,12 +72,16 @@
                     <form action="{{ route('places.unfavorite', $place) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">Remove Favorite</button>
+                        <x-secondary-button type="submit">
+                        {{ __('Remove Favorite') }}
+                        </x-secondary-button>
                     </form>
                 @else
                     <form action="{{ route('places.favorite', $place) }}" method="POST">
                         @csrf
-                        <button type="submit">Add to Favorites</button>
+                        <x-secondary-button type="submit">
+                            {{ __('Add to Favorites') }}
+                        </x-secondary-button>
                     </form>
                 @endif
             @endcan
