@@ -195,7 +195,7 @@ class PlaceController extends Controller
         $place->file->diskDelete();
         // Patró PRG amb missatge d'èxit
         return redirect()->route("places.index")
-            ->with('success', 'Place successfully deleted');
+            ->with('success', __('Place successfully deleted'));
     }
 
     /**
@@ -217,7 +217,7 @@ class PlaceController extends Controller
         $place->favorited()->attach(auth()->user()->id);
         
         // Lògica per afegir un 'favorite'
-        return redirect()->back()->with('success', 'Place added to favorites');
+        return redirect()->back()->with('success', __('Place added to favorites'));
     }
 
     public function unfavorite(Place $place)
@@ -226,7 +226,7 @@ class PlaceController extends Controller
         $place->favorited()->detach(auth()->user()->id);
 
         // Lògica per eliminar un 'favorite'
-        return redirect()->back()->with('success', 'Place removed from favorites');
+        return redirect()->back()->with('success', __('Place removed from favorites'));
     }
 
     public function __construct()

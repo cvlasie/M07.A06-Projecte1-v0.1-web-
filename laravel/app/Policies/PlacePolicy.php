@@ -45,7 +45,7 @@ class PlacePolicy
     {
         // 'author' pot editar els seus propis places
         // 'editor' pot editar qualsevol place
-        return ($user->hasRole('author') && $user->id === $place->author_id) || $user->role === 'editor';
+        return ($user->hasRole('author') && $user->id === $place->author_id) || $user->hasRole('admin');
     }
 
     /**
@@ -55,7 +55,7 @@ class PlacePolicy
     {
         // 'author' pot eliminar els seus propis places
         // 'editor' pot eliminar qualsevol place
-        return ($user->hasRole('author') && $user->id === $place->author_id) || $user->role === 'editor';
+        return ($user->hasRole('author') && $user->id === $place->author_id) || $user->hasRole('admin');
     }
 
 
