@@ -5,11 +5,13 @@
 @endsection
 
 @section('box-content')
-    <form method="POST" action="{{ route('files.store') }}" enctype="multipart/form-data">
+    <form id="create-file-form" method="POST" action="{{ route('files.store') }}" enctype="multipart/form-data">
         @csrf
         <div>
             <x-input-label for="upload" :value="__('Upload')" />
             <x-text-input type="file" name="upload" id="upload" class="block mt-1 w-full" :value="old('upload')" />
+            <!-- Espai per als missatges d'error -->
+            <span id="error-upload" class="text-red-500 text-xs"></span>
         </div>
         <div class="mt-8">
             <x-primary-button>
