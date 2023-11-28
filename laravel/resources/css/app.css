@@ -4,30 +4,39 @@
 
 @layer components {
     .bg-cream {
-        background-color: #FFD899;
+        @apply bg-[#FFD899];
     }
 
     .text-deep-purple {
-        color: #2A0052;
+        @apply text-[#2A0052];
     }
 
     .bg-orange {
-        background-color: #FF801F;
-        color: white; /* Si vols text blanc sobre fons taronja */
+        @apply bg-[#FF801F] text-white;
     }
 
     .bg-light-orange {
-        background-color: #FF9E1F;
-        color: white; /* Si vols text blanc sobre fons taronja clar */
+        @apply bg-[#FF9E1F] text-white;
     }
 
     .text-lila {
-        color: #BC87E8;
+        @apply text-[#BC87E8];
     }
 
-    .pagination {
-        /* Estils per a la paginació, si necessari */
+    /* Exemples d'estils responsius */
+    .responsive-text {
+        @apply text-base; 
+        @apply md:text-lg; 
+        @apply lg:text-xl; 
+    }
+
+    .responsive-padding {
+        @apply p-4; 
+        @apply md:p-6; 
+    }
+
+    .responsive-margin {
+        @apply m-2; 
+        @apply md:m-4; 
     }
 }
-
-/* Aquí pots afegir més estils personalitzats si és necessari */
