@@ -38,6 +38,10 @@
                     <td>{{ $author->name }}</td>
                 </tr>
                 <tr>
+                    <td><strong>Visibility</strong></td>
+                    <td>{{ $place->visibility->name }}</td>
+                </tr>
+                <tr>
                     <td><strong>Created</strong></td>
                     <td>{{ $place->created_at }}</td>
                 </tr>

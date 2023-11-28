@@ -6,6 +6,7 @@ use App\Models\Place;
 use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\Visibility;
 
 class PlaceController extends Controller
 {
@@ -62,6 +63,7 @@ class PlaceController extends Controller
             'upload'      => 'required|mimes:gif,jpeg,jpg,png,mp4|max:2048',
             'latitude'    => 'required',
             'longitude'   => 'required',
+            'visibility_id' => 'required|exists:visibilities,id',
         ]);
         
         // Obtenir dades del formulari
@@ -85,6 +87,7 @@ class PlaceController extends Controller
                 'latitude'    => $latitude,
                 'longitude'   => $longitude,
                 'author_id'   => auth()->user()->id,
+                'visibility_id' => $request->get('visibility_id'),
             ]);
             \Log::debug("DB storage OK");
             // Patró PRG amb missatge d'èxit
@@ -128,13 +131,18 @@ class PlaceController extends Controller
     public function edit(Place $place)
     {
         $this->authorize('update', $place);
-        
+
+        // Obtenir totes les visibilitats
+        $visibilities = Visibility::all();
+
         return view("places.edit", [
-            'place'  => $place,
-            'file'   => $place->file,
-            'author' => $place->user,
+            'place'       => $place,
+            'file'        => $place->file,
+            'author'      => $place->user,
+            'visibilities' => $visibilities, // Afegir aquesta línia
         ]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -152,6 +160,7 @@ class PlaceController extends Controller
             'upload'      => 'nullable|mimes:gif,jpeg,jpg,png,mp4|max:2048',
             'latitude'    => 'required',
             'longitude'   => 'required',
+            'visibility_id' => 'required|exists:visibilities,id',
         ]);
         
         // Obtenir dades del formulari
@@ -160,6 +169,7 @@ class PlaceController extends Controller
         $upload      = $request->file('upload');
         $latitude    = $request->get('latitude');
         $longitude   = $request->get('longitude');
+        $visibilityId = $request->get('visibility_id');
 
         // Desar fitxer (opcional)
         if (is_null($upload) || $place->file->diskSave($upload)) {
@@ -169,6 +179,7 @@ class PlaceController extends Controller
             $place->description = $description;
             $place->latitude    = $latitude;
             $place->longitude   = $longitude;
+            $place->visibility_id = $visibilityId;
             $place->save();
             \Log::debug("DB storage OK");
             // Patró PRG amb missatge d'èxit
