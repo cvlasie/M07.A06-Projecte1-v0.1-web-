@@ -32,10 +32,12 @@ class PlaceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Fieldset::make('File')
+                    ->label(__('File'))
                     ->relationship('file')
                     ->saveRelationshipsWhenHidden()
                     ->schema([
                         Forms\Components\FileUpload::make('filepath')
+                            ->label(__('filepath'))
                             ->required() 
                             ->image() 
                             ->maxSize(2048) 
@@ -48,17 +50,22 @@ class PlaceResource extends Resource
                 Forms\Components\Fieldset::make('Place')
                     ->schema([
                         Forms\Components\Hidden::make('file_id')
+                            ->label(__('file_id'))
                             ->required(),
                         Forms\Components\TextInput::make('name')
+                            ->label(__('name'))
                             ->required(),
                         Forms\Components\RichEditor::make('description')
+                            ->label(__('description'))
                             ->required()
                             ->maxLength(255),
                         Forms\Components\Select::make('author_id')
+                            ->label(__('author_id'))
                             ->relationship('user', 'name')
                             ->default(Auth::id())
                             ->required(),
                         Forms\Components\DateTimePicker::make('created_date')
+                            ->label(__('created_date'))
                             ->default(now())
                             ->disabled(),
                         // Afegeix aquí més camps segons les teves necessitats
@@ -72,11 +79,16 @@ class PlaceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('file_id'),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('author_id'),
-                Tables\Columns\TextColumn::make('created_date'),
+                TextColumn::make('file_id')
+                    ->label(__('file_id')),
+                TextColumn::make('name')
+                    ->label(__('name')),
+                TextColumn::make('description')
+                    ->label(__('description')),
+                TextColumn::make('author_id')
+                    ->label(__('author_id')),
+                TextColumn::make('created_date')
+                    ->label(__('created_date')),
 
                 // Altres columnes...
             ])

@@ -13,6 +13,7 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Livewire\TemporaryUploadedFile;
+use Filament\Tables\Columns\TextColumn;
 
 class FileResource extends Resource
 {
@@ -26,6 +27,7 @@ class FileResource extends Resource
         // Se está definiendo un campo de carga de archivos (FileUpload) en el formulario.
         ->schema([
             Forms\Components\FileUpload::make('filepath') // Creación del campo de carga de archivos con el nombre 'filepath'.
+                ->label(__('filepath'))
                 ->required() // El campo se establece como obligatorio.
                 ->image() // Se especifica que solo se permiten archivos de imagen.
                 ->maxSize(2048) // Se establece un límite máximo de tamaño para el archivo cargado (2 MB).
@@ -44,11 +46,15 @@ class FileResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('filepath'),
-                Tables\Columns\TextColumn::make('filesize'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('filepath')
+                    ->label(__('filepath')),
+                TextColumn::make('filesize')
+                    ->label(__('filesize')),
+                TextColumn::make('created_at')
+                    ->label(__('created_at'))
                     ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
+                    ->label(__('updated_at'))
                     ->dateTime(),
             ])
             ->filters([

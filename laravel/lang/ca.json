@@ -1,24 +1,24 @@
 {
-    "#_N074(C0M3N7ARI2)": "FileController.php",
+    "#_N074(C0M3N7ARI1)": "FileController.php",
     "File successfully saved": "Fitxer desat correctament",
     "ERROR uploading file": "ERROR pujant el fitxer",
     "File succesfully deleted": "Fitxer eliminat amb èxit",
     
-    "#_N074(C0M3N7ARI3)": "File(Vistes Blade).php",
+    "#_N074(C0M3N7ARI2)": "File(Vistes Blade).php",
     "Add file": "Afegir fitxer",
     "Files": "Fitxers",
     "Add new file": "Afegir nou fitxer",
     "Filepath": "Ruta del fitxer",
     "Filesize": "Mida del fitxer",
     
-    "#_N074(C0M3N7ARI4)": "PlaceControler.php",
+    "#_N074(C0M3N7ARI3)": "PlaceControler.php",
     "Place successfully saved": "Lloc desat correctament",
     "ERROR Uploading file": "ERROR pujant el fitxer",
     "Place successfully deleted": "Lloc eliminat correctament",
     "Place added to favorites": "Lloc afegit als favorits",
     "Place removed from favorites": "Lloc eliminat dels favorits",
     
-    "#_N074(C0M3N7ARI5)": "Place(Vistes Blade).php",
+    "#_N074(C0M3N7ARI4)": "Place(Vistes Blade).php",
     "Add place": "Afegir lloc",
     "Name": "Nom",
     "Description": "Descripció",
@@ -42,7 +42,7 @@
     "Created": "Creat",
     "Updated": "Actualitzat",
     
-    "#_N074(C0M3N7ARI6)": "PostController.php",
+    "#_N074(C0M3N7ARI5)": "PostController.php",
     "Post liked successfully": "Post marcat com a favorit amb èxit",
     "Post already liked by the user": "Aquest post ja ha estat marcat com a favorit pel usuari",
     "Post unliked successfully": "Post desmarcat com a favorit amb èxit",
@@ -50,8 +50,24 @@
     "Post successfully saved": "Post guardat amb èxit",
     "Post successfully deleted": "Post eliminat amb èxit",
     
-    "#_N074(C0M3N7ARI7)": "Post(Vistes Blade).php",
+    "#_N074(C0M3N7ARI6)": "Post(Vistes Blade).php",
     "Add post": "Afegir post",
     "Posts": "Posts",
-    "Add new post": "Afegir nou post"
+    "Add new post": "Afegir nou post",
+
+    "#_N074(C0M3N7ARI7)": "FileResource.php",
+    "filepath": "Ruta de l'arxiu",
+    "filesize": "Mida de l'arxiu",
+    "created_at": "Creat",
+    "updated_at": "Actualitzat",
+
+    "#_N074(C0M3N7ARI8)": "PlaceResource.php",
+    "File": "Arxiu",
+    "Place": "Lloc",
+    "file_id": "ID de l'arxiu",
+    "name": "Nom",
+    "description": "Descripció",
+    "author_id": "ID de l'autor",
+    "created_date": "Data de creació"
+    
 }

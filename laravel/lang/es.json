@@ -53,5 +53,20 @@
     "#_N074(C0M3N7ARI6)": "Post(Vistes Blade).php",
     "Add post": "Agregar publicación",
     "Posts": "Publicaciones",
-    "Add new post": "Agregar nueva publicación"
+    "Add new post": "Agregar nueva publicación",
+
+    "#_N074(C0M3N7ARI7)": "FileResource.php",
+    "filepath": "Ruta del archivo",
+    "filesize": "Tamaño del archivo",
+    "created_at": "Creado",
+    "updated_at": "Actualizado",
+
+    "#_N074(C0M3N7ARI8)": "PlaceResource.php",
+    "File": "Archivo",
+    "Place": "Lugar",
+    "file_id": "ID del archivo",
+    "name": "Nombre",
+    "description": "Descripción",
+    "author_id": "ID del autor",
+    "created_date": "Fecha de creación"
 }
