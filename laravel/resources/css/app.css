@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .bg-cream {
+        background-color: #FFD899;
+    }
+
+    .text-deep-purple {
+        color: #2A0052;
+    }
+
+    .bg-orange {
+        background-color: #FF801F;
+        color: white; /* Si vols text blanc sobre fons taronja */
+    }
+
+    .bg-light-orange {
+        background-color: #FF9E1F;
+        color: white; /* Si vols text blanc sobre fons taronja clar */
+    }
+
+    .text-lila {
+        color: #BC87E8;
+    }
+
+    .pagination {
+        /* Estils per a la paginació, si necessari */
+    }
+}
+
+/* Aquí pots afegir més estils personalitzats si és necessari */
