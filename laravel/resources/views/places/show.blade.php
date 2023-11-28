@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td><strong>Visibility</strong></td>
-                    <td>{{ $place->visibility->name }}</td>
+                    <td>{{ $place->visibility ? $place->visibility->name : 'Visibilitat no disponible' }}</td>
                 </tr>
                 <tr>
                     <td><strong>Created</strong></td>

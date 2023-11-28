@@ -45,7 +45,11 @@ class PlaceController extends Controller
      */
     public function create()
     {
-        return view("places.create");
+        $visibilities = Visibility::all();
+
+        return view('places.create', [
+        'visibilities' => $visibilities,
+        ]);
     }
 
     /**
@@ -109,17 +113,26 @@ class PlaceController extends Controller
      */
     public function show(Place $place)
     {
+        // Carregar la relació 'visibility' si no està ja carregada
+        if (!$place->relationLoaded('visibility')) {
+            $place->load('visibility');
+        }
+
         $isFavorited = auth()->user() ? $place->favorited->contains(auth()->user()->id) : false;
         $favoritesCount = $place->favorited->count();
+
+        // Assegura't que l'objecte 'user' (autor) estigui carregat
+        $author = $place->user ?? null; // Retorna null si 'user' no està definit
 
         return view("places.show", [
             'place'          => $place,
             'file'           => $place->file,
-            'author'         => $place->user,
+            'author'         => $author,
             'isFavorited'    => $isFavorited,
             'favoritesCount' => $favoritesCount,
         ]);
     }
+
 
 
     /**
