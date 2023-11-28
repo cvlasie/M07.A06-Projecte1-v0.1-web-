@@ -31,8 +31,7 @@ class FilamentServiceProvider extends ServiceProvider
 
             Filament::makeNavigationItem()
                 ->label('Visibilities')
-                ->url(VisibilityResource::getUrl('index'))
-                ->icon('heroicon-o-eye'),
+                ->url(VisibilityResource::getUrl('index')),
         ];
     }
 }

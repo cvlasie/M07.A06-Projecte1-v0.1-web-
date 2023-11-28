@@ -17,7 +17,7 @@ class VisibilityResource extends Resource
 {
     protected static ?string $model = Visibility::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-eye';
 
     public static function form(Form $form): Form
     {
