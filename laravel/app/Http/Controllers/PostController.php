@@ -111,7 +111,10 @@ class PostController extends Controller
     public function create()
     {
         $visibilities = Visibility::all();
-        return view("posts.create", ['visibilities' => $visibilities]);
+
+        return view('posts.create', [
+        'visibilities' => $visibilities,
+        ]);
     }
 
     public function store(Request $request)
@@ -160,18 +163,27 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $post->loadCount('likes');
-
+    
         // Obtener el usuario autenticado (si estás utilizando autenticación)
         $user = auth()->user();
-
+    
         // Verificar si el usuario autenticado ha dado like al post
         $liked = $user ? $post->likes->contains($user->id) : false;
-
+    
+        // Cargar la relación 'visibility' si no está ya cargada
+        if (!$post->relationLoaded('visibility')) {
+            $post->load('visibility');
+        }
+    
+        // Assegura't que l'objecte 'user' (autor) estigui carregat
+        $author = $post->user ?? null; // Retorna null si 'user' no està definit
+    
         return view("posts.show", [
-            'post'   => $post,
-            'file'   => $post->file,
-            'author' => $post->user,
-            'liked'  => $liked,
+            'post'           => $post,
+            'file'           => $post->file,
+            'author'         => $author,
+            'liked'          => $liked,
+            'visibility'     => $post->visibility,
         ]);
     }
 

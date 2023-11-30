@@ -14,6 +14,8 @@
         <div>
             <x-input-label for="upload" :value="__('Upload')" />
             <x-text-input type="file" name="upload" id="upload" class="block mt-1 w-full" :value="old('upload')" />
+            <!-- Espai per als missatges d'error -->
+            <span id="error-upload" class="text-red-500 text-xs"></span>
         </div>
         <div>
             <x-input-label for="latitude" :value="__('Latitude')" />

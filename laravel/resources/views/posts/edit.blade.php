@@ -12,7 +12,7 @@
 
         @section('column-2')
             @can('update', $post)
-                <form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data">
+                <form id="create-post-form" method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                     @csrf
                     @method("PUT")
                     <div>
@@ -22,6 +22,8 @@
                     <div>
                         <x-input-label for="upload" :value="__('Upload')" />
                         <x-text-input type="file" name="upload" id="upload" class="block mt-1 w-full" />
+                        <!-- Espacio para mensajes de error relacionados con la carga de archivos -->
+                        <span id="error-upload" class="text-red-500 text-xs"></span>
                     </div>
                     <div>
                         <x-input-label for="latitude" :value="__('Latitude')" />
