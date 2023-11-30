@@ -14,7 +14,8 @@ class Post extends Model
         'file_id',
         'latitude',
         'longitude',
-        'author_id'
+        'author_id',
+        'visibility_id',
     ];
 
     public function file()
@@ -54,5 +55,10 @@ class Post extends Model
     public function unlike(User $user)
     {
         $this->likes()->detach($user->id);
+    }
+
+    public function visibility()
+    {
+        return $this->belongsTo(Visibility::class);
     }
 }
