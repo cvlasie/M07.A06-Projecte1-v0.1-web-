@@ -12,7 +12,7 @@
 
         @section('column-2')
             @can('update', $post)
-                <form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data">
+                <form id="create-post-form" method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                     @csrf
                     @method("PUT")
                     <div>
@@ -22,6 +22,8 @@
                     <div>
                         <x-input-label for="upload" :value="__('Upload')" />
                         <x-text-input type="file" name="upload" id="upload" class="block mt-1 w-full" />
+                        <!-- Espacio para mensajes de error relacionados con la carga de archivos -->
+                        <span id="error-upload" class="text-red-500 text-xs"></span>
                     </div>
                     <div>
                         <x-input-label for="latitude" :value="__('Latitude')" />
@@ -30,6 +32,14 @@
                     <div>
                         <x-input-label for="longitude" :value="__('Longitude')" />
                         <x-text-input type="text" name="longitude" id="longitude" class="block mt-1 w-full" :value="$post->longitude" />
+                    </div>
+                    <div>
+                        <x-input-label for="visibility_id" :value="__('Visibility')" />
+                        <select name="visibility_id" id="visibility_id" class="block mt-1 w-full">
+                            @foreach($visibilities as $visibility)
+                                <option value="{{ $visibility->id }}" {{ $post->visibility_id == $visibility->id ? 'selected' : '' }}>{{ $visibility->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mt-8">
                         <x-primary-button>

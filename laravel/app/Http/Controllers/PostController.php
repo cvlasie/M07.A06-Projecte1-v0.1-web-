@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\File;
+use App\Models\Visibility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -109,17 +110,22 @@ class PostController extends Controller
 
     public function create()
     {
-        return view("posts.create");
+        $visibilities = Visibility::all();
+
+        return view('posts.create', [
+        'visibilities' => $visibilities,
+        ]);
     }
 
     public function store(Request $request)
     {
         // Validar datos del formulario
         $validatedData = $request->validate([
-            'body'      => 'required',
-            'upload'    => 'required|mimes:gif,jpeg,jpg,png,mp4|max:2048',
-            'latitude'  => 'required',
-            'longitude' => 'required',
+            'body'          => 'required',
+            'upload'        => 'required|mimes:gif,jpeg,jpg,png,mp4|max:2048',
+            'latitude'      => 'required',
+            'longitude'     => 'required',
+            'visibility_id' => 'required|exists:visibilities,id', 
         ]);
 
         // Obtener datos del formulario
@@ -136,11 +142,12 @@ class PostController extends Controller
             // Guardar datos en BD
             Log::debug("Saving post at DB...");
             $post = Post::create([
-                'body'      => $body,
-                'file_id'   => $file->id,
-                'latitude'  => $latitude,
-                'longitude' => $longitude,
-                'author_id' => auth()->user()->id,
+                'body'           => $body,
+                'file_id'        => $file->id,
+                'latitude'       => $latitude,
+                'longitude'      => $longitude,
+                'author_id'      => auth()->user()->id,
+                'visibility_id'  => $request->input('visibility_id'),
             ]);
             Log::debug("DB storage OK");
             // Patrón PRG con mensaje de éxito
@@ -156,27 +163,38 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $post->loadCount('likes');
-
+    
         // Obtener el usuario autenticado (si estás utilizando autenticación)
         $user = auth()->user();
-
+    
         // Verificar si el usuario autenticado ha dado like al post
         $liked = $user ? $post->likes->contains($user->id) : false;
-
+    
+        // Cargar la relación 'visibility' si no está ya cargada
+        if (!$post->relationLoaded('visibility')) {
+            $post->load('visibility');
+        }
+    
+        // Assegura't que l'objecte 'user' (autor) estigui carregat
+        $author = $post->user ?? null; // Retorna null si 'user' no està definit
+    
         return view("posts.show", [
-            'post'   => $post,
-            'file'   => $post->file,
-            'author' => $post->user,
-            'liked'  => $liked,
+            'post'           => $post,
+            'file'           => $post->file,
+            'author'         => $author,
+            'liked'          => $liked,
+            'visibility'     => $post->visibility,
         ]);
     }
 
     public function edit(Post $post)
     {
+        $visibilities = Visibility::all(); 
         return view("posts.edit", [
-            'post'   => $post,
-            'file'   => $post->file,
-            'author' => $post->user,
+            'post'          => $post,
+            'file'          => $post->file,
+            'author'        => $post->user,
+            'visibilities'  => $visibilities,
         ]);
     }
 
@@ -184,10 +202,11 @@ class PostController extends Controller
     {
         // Validar datos del formulario
         $validatedData = $request->validate([
-            'body'      => 'required',
-            'upload'    => 'nullable|mimes:gif,jpeg,jpg,png,mp4|max:2048',
-            'latitude'  => 'required',
-            'longitude' => 'required',
+            'body'          => 'required',
+            'upload'        => 'nullable|mimes:gif,jpeg,jpg,png,mp4|max:2048',
+            'latitude'      => 'required',
+            'longitude'     => 'required',
+            'visibility_id' => 'required|exists:visibilities,id', // Validate visibility_id exists in visibilities table
         ]);
 
         // Obtener datos del formulario
@@ -200,9 +219,10 @@ class PostController extends Controller
         if (is_null($upload) || $post->file->diskSave($upload)) {
             // Actualizar datos en BD
             Log::debug("Updating DB...");
-            $post->body      = $body;
-            $post->latitude  = $latitude;
-            $post->longitude = $longitude;
+            $post->body           = $body;
+            $post->latitude       = $latitude;
+            $post->longitude      = $longitude;
+            $post->visibility_id  = $request->input('visibility_id'); // Update visibility_id
             $post->save();
             Log::debug("DB storage OK");
             // Patrón PRG con mensaje de éxito
@@ -210,7 +230,7 @@ class PostController extends Controller
                 ->with('success', __('Post successfully saved'));
         } else {
             // Patrón PRG con mensaje de error
-            return redirect()->route("posts.edit")
+            return redirect()->route("posts.edit", $post)
                 ->with('error', __('ERROR Uploading file'));
         }
     }

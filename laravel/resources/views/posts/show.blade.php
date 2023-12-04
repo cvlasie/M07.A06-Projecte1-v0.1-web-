@@ -34,6 +34,11 @@
                     <td>{{ $author->name }}</td>
                 </tr>
                 <tr>
+                <tr>
+                    <td><strong>Visibility</strong></td>
+                    <td>{{ $post->visibility ? $place->visibility->name : 'Visibilitat no disponible' }}</td>
+                </tr>
+                <tr>
                     <td><strong>Created</strong></td>
                     <td>{{ $post->created_at }}</td>
                 </tr>
