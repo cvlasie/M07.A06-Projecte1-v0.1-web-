@@ -11,6 +11,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\AboutCaudiuController;
 
 
 use App\Models\Role;
@@ -64,6 +65,8 @@ Route::resource('places', PlaceController::class)->middleware(['auth']);
 Route::get('places/{place}/delete', [PlaceController::class, 'delete'])->name('places.delete')->middleware(['auth']);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/about-claudiu', [AboutCaudiuController::class, 'index'])->name('home');
+
 
 // Rutas para "likes"
 Route::post('/posts/{post}/likes', [PostController::class, 'like'])->name('posts.like');
