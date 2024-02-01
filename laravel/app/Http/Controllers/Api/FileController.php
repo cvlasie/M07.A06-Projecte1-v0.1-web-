@@ -14,7 +14,6 @@ class FileController extends Controller
      */
     public function index()
     {
-        // Retrieve and return a list of files
         $files = File::all();
         return response()->json(['success' => true, 'data' => $files]);
     }
@@ -24,14 +23,12 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request
         $request->validate([
-            'upload' => 'required|image|max:1024', // Adjust the max size as needed
+            'upload' => 'required|image|max:1024', 
         ]);
 
-        // Process file upload and save to the database
         $uploadedFile = $request->file('upload');
-        $filepath = $uploadedFile->store('uploads'); // Adjust the storage path as needed
+        $filepath = $uploadedFile->store('uploads', 'public');
         $filesize = $uploadedFile->getSize();
 
         $file = new File([
@@ -49,7 +46,6 @@ class FileController extends Controller
      */
     public function show(string $id)
     {
-        // Find and return a specific file
         $file = File::find($id);
 
         if (!$file) {
@@ -64,21 +60,17 @@ class FileController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Validate the request
-        $request->validate([
-            'upload' => 'required|image|max:1024', // Adjust the max size as needed
-        ]);
-
-        // Find the file
         $file = File::find($id);
-
         if (!$file) {
             return response()->json(['success' => false, 'message' => 'File not found'], 404);
         }
 
-        // Process file update and save to the database
+        $request->validate([
+            'upload' => 'required|image|max:1024', 
+        ]);
+
         $uploadedFile = $request->file('upload');
-        $filepath = $uploadedFile->store('uploads'); // Adjust the storage path as needed
+        $filepath = $uploadedFile->store('uploads', 'public'); 
         $filesize = $uploadedFile->getSize();
 
         $file->update([
@@ -89,22 +81,20 @@ class FileController extends Controller
         return response()->json(['success' => true, 'data' => $file]);
     }
 
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        // Find the file
         $file = File::find($id);
 
         if (!$file) {
             return response()->json(['success' => false, 'message' => 'File not found'], 404);
         }
 
-        // Delete the file from storage
-        Storage::delete($file->filepath);
+        Storage::disk('public')->delete($file->filepath);
 
-        // Delete the file record from the database
         $file->delete();
 
         return response()->json(['success' => true, 'message' => 'File deleted']);
