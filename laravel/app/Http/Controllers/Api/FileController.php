@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\File; 
+use Illuminate\Support\Facades\Storage;
+use App\Models\File;
 
 class FileController extends Controller
 {
@@ -13,115 +14,99 @@ class FileController extends Controller
      */
     public function index()
     {
-        $files = File::all(); 
-
-        return response()->json([
-            'success' => true,
-            'data' => $files
-        ], 200);
+        // Retrieve and return a list of files
+        $files = File::all();
+        return response()->json(['success' => true, 'data' => $files]);
     }
-
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'nom' => 'required|string|max:255', 
-            'upload' => 'required|mimes:gif,jpeg,jpg,png|max:2048', 
+        // Validate the request
+        $request->validate([
+            'upload' => 'required|image|max:1024', // Adjust the max size as needed
         ]);
-    
-        $file = new File();
-        $file->nom = $validatedData['nom'];
-    
-        if ($request->hasFile('upload') && $request->file('upload')->isValid()) {
-            $path = $request->file('upload')->store('public/files'); 
-            $file->path = $path; 
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error in file upload'
-            ], 500);
-        }
-    
+
+        // Process file upload and save to the database
+        $uploadedFile = $request->file('upload');
+        $filepath = $uploadedFile->store('uploads'); // Adjust the storage path as needed
+        $filesize = $uploadedFile->getSize();
+
+        $file = new File([
+            'filepath' => $filepath,
+            'filesize' => $filesize,
+        ]);
+
         $file->save();
-    
-        return response()->json([
-            'success' => true,
-            'data' => $file
-        ], 201);
+
+        return response()->json(['success' => true, 'data' => $file], 201);
     }
-    
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(string $id)
     {
+        // Find and return a specific file
         $file = File::find($id);
 
-        if ($file) {
-            return response()->json([
-                'success' => true,
-                'data' => $file
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'File not found'
-            ], 404);
+        if (!$file) {
+            return response()->json(['success' => false, 'message' => 'File not found'], 404);
         }
-    }
 
+        return response()->json(['success' => true, 'data' => $file]);
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
-        $file = File::find($id);
-        if (!$file) {
-            return response()->json([
-                'success' => false,
-                'message' => 'File not found'
-            ], 404);
-        }
-
-        $validatedData = $request->validate([
-            'nom' => 'required|string|max:255',
+        // Validate the request
+        $request->validate([
+            'upload' => 'required|image|max:1024', // Adjust the max size as needed
         ]);
 
-        $file->fill($validatedData);
-        $file->save();
+        // Find the file
+        $file = File::find($id);
 
-        return response()->json([
-            'success' => true,
-            'data' => $file
-        ], 200);
+        if (!$file) {
+            return response()->json(['success' => false, 'message' => 'File not found'], 404);
+        }
+
+        // Process file update and save to the database
+        $uploadedFile = $request->file('upload');
+        $filepath = $uploadedFile->store('uploads'); // Adjust the storage path as needed
+        $filesize = $uploadedFile->getSize();
+
+        $file->update([
+            'filepath' => $filepath,
+            'filesize' => $filesize,
+        ]);
+
+        return response()->json(['success' => true, 'data' => $file]);
     }
-
-
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(string $id)
     {
+        // Find the file
         $file = File::find($id);
+
         if (!$file) {
-            return response()->json([
-                'success' => false,
-                'message' => 'File not found'
-            ], 404);
+            return response()->json(['success' => false, 'message' => 'File not found'], 404);
         }
 
+        // Delete the file from storage
+        Storage::delete($file->filepath);
+
+        // Delete the file record from the database
         $file->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'File deleted successfully'
-        ], 200);
+        return response()->json(['success' => true, 'message' => 'File deleted']);
     }
-    
 }

@@ -1,133 +1,212 @@
 <?php
 
+
 namespace Tests\Feature;
 
-use App\Models\File;
-use App\Models\User;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Http\UploadedFile;
+
 
 class FileTest extends TestCase
 {
-    use RefreshDatabase;
+   public function test_file_list()
+   {
+       // List all files using API web service
+       $response = $this->getJson("/api/files");
+       // Check OK response
+       $this->_test_ok($response);
+   }
 
-    public function test_file_list()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
 
-        $response = $this->get('/api/files');
-        $response->assertStatus(200)
-                 ->assertJson(['success' => true]);
-    }
+   public function test_file_create() : object
+   {
+       // Create fake file
+       $name  = "avatar.png";
+       $size = 500; /*KB*/
+       $upload = UploadedFile::fake()->image($name)->size($size);
+       // Upload fake file using API web service
+       $response = $this->postJson("/api/files", [
+           "upload" => $upload,
+       ]);
+       // Check OK response
+       $this->_test_ok($response, 201);
+       // Check validation errors
+       $response->assertValid(["upload"]);
+       // Check JSON exact values
+       $response->assertJsonPath("data.filesize", $size*1024);
+       // Check JSON dynamic values
+       $response->assertJsonPath("data.id",
+           fn ($id) => !empty($id)
+       );
+       $response->assertJsonPath("data.filepath",
+           fn ($filepath) => str_contains($filepath, $name)
+       );
+       // Read, update and delete dependency!!!
+       $json = $response->getData();
+       return $json->data;
+   }
 
-    public function test_file_create()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
 
-        $fileData = [
-            'nom' => 'Test File',
-            'upload' => UploadedFile::fake()->image('file.jpg')
-        ];
+   public function test_file_create_error()
+   {
+       // Create fake file with invalid max size
+       $name  = "avatar.png";
+       $size = 5000; /*KB*/
+       $upload = UploadedFile::fake()->image($name)->size($size);
+       // Upload fake file using API web service
+       $response = $this->postJson("/api/files", [
+           "upload" => $upload,
+       ]);
+       // Check ERROR response
+       $this->_test_error($response);
+   }
 
-        $response = $this->postJson('/api/files', $fileData);
-        $response->assertStatus(201)
-                 ->assertJson(['success' => true]);
-    }
 
-    public function test_file_read()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
+   /**
+    * @depends test_file_create
+    */
+   public function test_file_read(object $file)
+   {
+       // Read one file
+       $response = $this->getJson("/api/files/{$file->id}");
+       // Check OK response
+       $this->_test_ok($response);
+       // Check JSON exact values
+       $response->assertJsonPath("data.filepath",
+           fn ($filepath) => !empty($filepath)
+       );
+   }
+  
+   public function test_file_read_notfound()
+   {
+       $id = "not_exists";
+       $response = $this->getJson("/api/files/{$id}");
+       $this->_test_notfound($response);
+   }
 
-        $file = File::factory()->create();
 
-        $response = $this->get("/api/files/{$file->id}");
-        $response->assertStatus(200)
-                 ->assertJson(['success' => true]);
-    }
+   /**
+    * @depends test_file_create
+    */
+   public function test_file_update(object $file)
+   {
+       // Create fake file
+       $name  = "photo.jpg";
+       $size = 1000; /*KB*/
+       $upload = UploadedFile::fake()->image($name)->size($size);
+       // Upload fake file using API web service
+       $response = $this->putJson("/api/files/{$file->id}", [
+           "upload" => $upload,
+       ]);
+       // Check OK response
+       $this->_test_ok($response);
+       // Check validation errors
+       $response->assertValid(["upload"]);
+       // Check JSON exact values
+       $response->assertJsonPath("data.filesize", $size*1024);
+       // Check JSON dynamic values
+       $response->assertJsonPath("data.filepath",
+           fn ($filepath) => str_contains($filepath, $name)
+       );
+   }
 
-    public function test_file_update()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
 
-        $file = File::factory()->create();
-        $updateData = ['nom' => 'Updated Name'];
+   /**
+    * @depends test_file_create
+    */
+   public function test_file_update_error(object $file)
+   {
+       // Create fake file with invalid max size
+       $name  = "photo.jpg";
+       $size = 3000; /*KB*/
+       $upload = UploadedFile::fake()->image($name)->size($size);
+       // Upload fake file using API web service
+       $response = $this->putJson("/api/files/{$file->id}", [
+           "upload" => $upload,
+       ]);
+       // Check ERROR response
+       $this->_test_error($response);
+   }
 
-        $response = $this->putJson("/api/files/{$file->id}", $updateData);
-        $response->assertStatus(200)
-                 ->assertJson(['success' => true]);
-    }
 
-    public function test_file_delete()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
+   public function test_file_update_notfound()
+   {
+       $id = "not_exists";
+       $response = $this->putJson("/api/files/{$id}", []);
+       $this->_test_notfound($response);
+   }
 
-        $file = File::factory()->create();
 
-        $response = $this->delete("/api/files/{$file->id}");
-        $response->assertStatus(200)
-                 ->assertJson(['success' => true]);
-    }
+   /**
+    * @depends test_file_create
+    */
+   public function test_file_delete(object $file)
+   {
+       // Delete one file using API web service
+       $response = $this->deleteJson("/api/files/{$file->id}");
+       // Check OK response
+       $this->_test_ok($response);
+   }
 
-    public function test_file_create_error()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
 
-        $invalidData = ['nom' => ''];
+   public function test_file_delete_notfound()
+   {
+       $id = "not_exists";
+       $response = $this->deleteJson("/api/files/{$id}");
+       $this->_test_notfound($response);
+   }
 
-        $response = $this->postJson('/api/files', $invalidData);
-        $response->assertStatus(422)
-                 ->assertJsonStructure(['message', 'errors']);
-    }
 
-    public function test_file_update_error()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
+   protected function _test_ok($response, $status = 200)
+   {
+       // Check JSON response
+       $response->assertStatus($status);
+       // Check JSON properties
+       $response->assertJson([
+           "success" => true,
+       ]);
+       // Check JSON dynamic values
+       $response->assertJsonPath("data",
+           fn ($data) => is_array($data)
+       );
+   }
 
-        $file = File::factory()->create();
-        $invalidUpdateData = ['nom' => ''];
 
-        $response = $this->putJson("/api/files/{$file->id}", $invalidUpdateData);
-        $response->assertStatus(422)
-                 ->assertJsonStructure(['message', 'errors']);
-    }
-
-    public function test_file_read_notfound()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-
-        $response = $this->get('/api/files/9999'); 
-        $response->assertStatus(404)
-                 ->assertJson(['success' => false]);
-    }
-
-    public function test_file_update_notfound()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-
-        $updateData = ['nom' => 'Any Name'];
-
-        $response = $this->putJson('/api/files/9999', $updateData); 
-        $response->assertStatus(404)
-                 ->assertJson(['success' => false]);
-    }
-
-    public function test_file_delete_notfound()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-
-        $response = $this->delete('/api/files/9999'); 
-        $response->assertStatus(404)
-                 ->assertJson(['success' => false]);
-    }
+   protected function _test_error($response)
+   {
+       // Check response
+       $response->assertStatus(422);
+       // Check validation errors
+       $response->assertInvalid(["upload"]);
+       // Check JSON properties
+       $response->assertJson([
+           "message" => true, // any value
+           "errors"  => true, // any value
+       ]);       
+       // Check JSON dynamic values
+       $response->assertJsonPath("message",
+           fn ($message) => !empty($message) && is_string($message)
+       );
+       $response->assertJsonPath("errors",
+           fn ($errors) => is_array($errors)
+       );
+   }
+  
+   protected function _test_notfound($response)
+   {
+       // Check JSON response
+       $response->assertStatus(404);
+       // Check JSON properties
+       $response->assertJson([
+           "success" => false,
+           "message" => true // any value
+       ]);
+       // Check JSON dynamic values
+       $response->assertJsonPath("message",
+           fn ($message) => !empty($message) && is_string($message)
+       );       
+   }
 }
