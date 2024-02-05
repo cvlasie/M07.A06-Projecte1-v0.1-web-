@@ -99,4 +99,9 @@ class FileController extends Controller
 
         return response()->json(['success' => true, 'message' => 'File deleted']);
     }
+
+    public function update_workaround(Request $request, $id)
+    {
+        return $this->update($request, $id);
+    }
 }
