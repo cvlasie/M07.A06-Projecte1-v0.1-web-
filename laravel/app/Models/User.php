@@ -71,4 +71,28 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->role_id == Role::AUTHOR;
     }
+
+    /**
+     * Els llocs favorits de l'usuari.
+     */
+    public function favoritePlaces()
+    {
+        return $this->belongsToMany(Place::class, 'favorites', 'user_id', 'place_id')->withTimestamps();
+    }
+
+    /**
+     * Afegeix un lloc als favorits de l'usuari.
+     */
+    public function addFavorite($placeId)
+    {
+        $this->favoritePlaces()->attach($placeId);
+    }
+
+    /**
+     * Elimina un lloc dels favorits de l'usuari.
+     */
+    public function removeFavorite($placeId)
+    {
+        $this->favoritePlaces()->detach($placeId);
+    }
 }
