@@ -73,4 +73,10 @@ class PlaceController extends Controller
         return response()->json(['message' => 'Removed from favorites']);
     }
 
+    public function showFavorites(Place $place)
+    {
+        $favorites = $place->favorites()->with('user')->get();
+        return response()->json($favorites);
+    }
+
 }

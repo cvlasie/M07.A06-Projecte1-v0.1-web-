@@ -38,4 +38,5 @@ Route::apiResource('places', PlaceController::class)->only(['index', 'show']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/places/{place}/favorites', [PlaceController::class, 'favorite'])->name('places.favorite');
     Route::delete('/places/{place}/favorites', [PlaceController::class, 'unfavorite'])->name('places.unfavorite');
+    Route::get('/places/{place}/favorites', [PlaceController::class, 'showFavorites'])->name('places.showFavorites'); // Nova ruta GET per obtenir els favorits
 });
