@@ -59,4 +59,9 @@ class Post extends Model
     {
         return $this->belongsTo(Visibility::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

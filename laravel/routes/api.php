@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\CommentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +38,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts/{post}/likes', [PostController::class, 'like'])->name('posts.like');
     Route::delete('/posts/{post}/likes', [PostController::class, 'unlike'])->name('posts.unlike');
 });
+
+Route::apiResource('posts.comments', CommentController::class);
