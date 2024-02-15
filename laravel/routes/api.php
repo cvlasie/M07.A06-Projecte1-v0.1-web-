@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\Api\PlaceController;
-use App\Http\Controllers\Api\ReviewController; 
+use App\Http\Controllers\Api\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ Route::apiResource('places', PlaceController::class)->only(['index', 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('places', PlaceController::class)->except(['index', 'show']);
-    Route::apiResource('places.reviews', ReviewController::class); 
+    Route::apiResource('places.reviews', ReviewController::class);
 
     Route::post('/places/{place}/favorites', [PlaceController::class, 'favorite'])->name('places.favorite');
     Route::delete('/places/{place}/favorites', [PlaceController::class, 'unfavorite'])->name('places.unfavorite');

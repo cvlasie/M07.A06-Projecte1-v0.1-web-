@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+    }
+    
     public function index(Place $place)
     {
         return response()->json($place->reviews);
@@ -50,11 +55,24 @@ class ReviewController extends Controller
         return response()->json($review);
     }
 
+     /**
+     * Remove the specified review from storage.
+     *
+     * @param  int  $placeId
+     * @param  int  $reviewId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($placeId, $reviewId)
     {
-        $review = Review::where('place_id', $placeId)->where('id', $reviewId)->where('user_id', auth()->id())->firstOrFail();
+        $review = Review::where('place_id', $placeId)->where('id', $reviewId)->firstOrFail();
+
+        // Comprovar si l'usuari actual té permís per eliminar la ressenya
+        $this->authorize('delete', $review);
+
+        // Si passa l'autorització, eliminar la ressenya
         $review->delete();
 
+        // Redirigir a la pàgina del lloc amb un missatge d'èxit
         return redirect()->route('places.show', $placeId)->with('success', 'Review deleted successfully.');
     }
 }
