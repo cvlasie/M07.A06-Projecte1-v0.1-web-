@@ -54,7 +54,7 @@
             @can('update', $place)
             <x-primary-button href="{{ route('places.edit', $place) }}">
                 {{ __('Edit') }}
-            </x-danger-button>
+            </x-primary-button>
             @endcan
             @can('delete', $place)
             <x-danger-button href="{{ route('places.delete', $place) }}">
@@ -70,6 +70,35 @@
         <div class="mt-8">
             <p>{{ $numFavs . " " . __('favorites') }}</p>
             @include('partials.buttons-favs')
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="reviews-section mt-8">
+            <h3>{{ __('Reviews') }}</h3>
+            @foreach($place->reviews as $review)
+                <div class="review">
+                    <strong>{{ $review->user->name }}:</strong>
+                    <p>{{ $review->comment }}</p>
+                    <span>{{ __('Rating') }}: {{ $review->rating }}</span>
+                    @if(auth()->check() && auth()->id() === $review->user_id)
+                        <form method="POST" action="{{ route('places.reviews.destroy', [$place->id, $review->id]) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">{{ __('Delete Review') }}</button>
+                        </form>
+                    @endif
+                </div>
+            @endforeach
+
+            <!-- Add Review Form -->
+            @if(auth()->check())
+                <form method="POST" action="{{ route('places.reviews.store', $place->id) }}">
+                    @csrf
+                    <textarea name="comment" placeholder="{{ __('Add your review...') }}"></textarea>
+                    <input type="number" name="rating" min="1" max="5" placeholder="{{ __('Rating') }}">
+                    <button type="submit">{{ __('Submit Review') }}</button>
+                </form>
+            @endif
         </div>
     @endsection
 </x-columns>

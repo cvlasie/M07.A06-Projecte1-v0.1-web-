@@ -39,3 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/places/{place}/favorites', [PlaceController::class, 'unfavorite'])->name('places.unfavorite');
     Route::get('/places/{place}/favorites', [PlaceController::class, 'showFavorites'])->name('places.showFavorites');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::post('/places/{place}/reviews', [ReviewController::class, 'store'])->name('places.reviews.store');
+    Route::delete('/places/{place}/reviews/{review}', [ReviewController::class, 'destroy'])->name('places.reviews.destroy');
+});

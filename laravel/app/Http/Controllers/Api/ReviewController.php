@@ -15,18 +15,21 @@ class ReviewController extends Controller
         return response()->json($place->reviews);
     }
 
-    public function store(Request $request, Place $place)
+    public function store(Request $request, $placeId)
     {
-        $this->validate($request, [
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'required|string',
+        $request->validate([
+            'comment' => 'required',
+            'rating' => 'required|integer|between:1,5',
         ]);
 
-        $review = new Review($request->all());
-        $review->user_id = Auth::id(); 
-        $place->reviews()->save($review);
+        $review = new Review();
+        $review->place_id = $placeId;
+        $review->user_id = auth()->id();
+        $review->comment = $request->comment;
+        $review->rating = $request->rating;
+        $review->save();
 
-        return response()->json($review, 201);
+        return redirect()->route('places.show', $placeId)->with('success', 'Review added successfully.');
     }
 
     public function show(Place $place, Review $review)
@@ -47,10 +50,11 @@ class ReviewController extends Controller
         return response()->json($review);
     }
 
-    public function destroy(Place $place, Review $review)
+    public function destroy($placeId, $reviewId)
     {
+        $review = Review::where('place_id', $placeId)->where('id', $reviewId)->where('user_id', auth()->id())->firstOrFail();
         $review->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('places.show', $placeId)->with('success', 'Review deleted successfully.');
     }
 }

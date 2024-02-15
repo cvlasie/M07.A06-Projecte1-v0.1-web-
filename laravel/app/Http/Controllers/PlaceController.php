@@ -118,18 +118,22 @@ class PlaceController extends Controller
      * @param  \App\Models\Place  $place
      * @return \Illuminate\Http\Response
      */
+   // Auth/PlaceController.php
     public function show(Place $place)
     {
-        // Count
         $place->loadCount('favorited');
+
+        $place->load('reviews.user');
 
         return view("places.show", [
             'place'   => $place,
             'file'    => $place->file,
             'author'  => $place->user,
             'numFavs' => $place->favorited_count,
+            'reviews' => $place->reviews, 
         ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
