@@ -9,49 +9,40 @@ use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\CommentController;
 
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Rutas de autenticación
+Route::middleware('guest')->group(function () {
+    Route::post('/register', [TokenController::class, 'register']);
+    Route::post('/login', [TokenController::class, 'login']);
 });
 
-Route::middleware('guest')->post('/register', [TokenController::class, 'register']);
-Route::middleware('guest')->post('/login', [TokenController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [TokenController::class, 'logout']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [TokenController::class, 'logout']);
+    Route::get('/user', [TokenController::class, 'user']);
+});
 
+// Rutas de archivos
 Route::apiResource('files', FileController::class);
 Route::post('files/{file}', [FileController::class, 'update_workaround']);
 
+// Rutas de lugares
 Route::apiResource('places', PlaceController::class)->only(['index', 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('places', PlaceController::class)->except(['index', 'show']);
     Route::apiResource('places.reviews', ReviewController::class);
-
+    
     Route::post('/places/{place}/favorites', [PlaceController::class, 'favorite'])->name('places.favorite');
     Route::delete('/places/{place}/favorites', [PlaceController::class, 'unfavorite'])->name('places.unfavorite');
     Route::get('/places/{place}/favorites', [PlaceController::class, 'showFavorites'])->name('places.showFavorites');
 });
 
+// Rutas de revisiones de lugares
 Route::middleware('auth')->group(function () {
     Route::post('/places/{place}/reviews', [ReviewController::class, 'store'])->name('places.reviews.store');
     Route::delete('/places/{place}/reviews/{review}', [ReviewController::class, 'destroy'])->name('places.reviews.destroy');
 });
-Route::middleware('auth:sanctum')->get('/user', [TokenController::class, 'user']);
-Route::middleware('guest')->post('/register', [TokenController::class, 'register']);
-Route::middleware('guest')->post('/login', [TokenController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [TokenController::class, 'logout']);
 
+// Rutas de publicaciones
 Route::apiResource('posts', PostController::class)->except(['index', 'show']);
 Route::apiResource('posts', PostController::class)->only(['index', 'show']);
 
@@ -60,4 +51,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/posts/{post}/likes', [PostController::class, 'unlike'])->name('posts.unlike');
 });
 
+// Rutas de comentarios de publicaciones
 Route::apiResource('posts.comments', CommentController::class);
