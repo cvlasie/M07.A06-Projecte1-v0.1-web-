@@ -19,8 +19,8 @@
             @php
                 $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
             @endphp
-            <link rel="stylesheet" href="{{ secure_asset('build/'.$manifest['resources/css/app.css']['file']) }}">
-            <script type="module" src="{{ secure_asset('build/'.$manifest['resources/js/app.js']['file']) }}"></script>
+            <link rel="stylesheet" href="{{ secure_asset('build/'.$manifest['resources/css/app-0a555dd4.css']['file']) }}">
+            <script type="module" src="{{ secure_asset('build/'.$manifest['resources/js/app-f4d1f195.js']['file']) }}"></script>
         @endenv
     </head>
     <body class="font-sans text-gray-900 antialiased">
