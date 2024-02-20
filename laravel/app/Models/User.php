@@ -75,6 +75,11 @@ class User extends Authenticatable implements FilamentUser
     /**
      * Els llocs favorits de l'usuari.
      */
+    public function favoritePlaces()
+    {
+        return $this->belongsToMany(Place::class, 'favorites', 'user_id', 'place_id')->withTimestamps();
+    }
+    
     public function likePosts()
     {
         return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id')->withTimestamps();
@@ -83,6 +88,11 @@ class User extends Authenticatable implements FilamentUser
     /**
      * Afegeix un lloc als favorits de l'usuari.
      */
+    public function addFavorite($placeId)
+    {
+        $this->favoritePlaces()->attach($placeId);
+    }
+
     public function addLike($postId)
     {
         $this->likePosts()->attach($postId);
@@ -91,6 +101,11 @@ class User extends Authenticatable implements FilamentUser
     /**
      * Elimina un lloc dels favorits de l'usuari.
      */
+    public function removeFavorite($placeId)
+    {
+        $this->favoritePlaces()->detach($placeId);
+    }
+    
     public function removeLike($postId)
     {
         $this->likePosts()->detach($postId);
