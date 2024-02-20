@@ -16,6 +16,8 @@ use App\Http\Controllers\AboutCaudiuController;
 
 use App\Models\Role;
 
+URL::forceScheme('https');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
