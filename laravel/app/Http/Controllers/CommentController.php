@@ -33,15 +33,17 @@ class CommentController extends Controller
 
     public function destroy($postId, $commentId)
     {
-        $comment = Comment::where('post_id', $postId)->findOrFail($commentId);
-        
-        // Asegúrate de que el usuario autenticado sea el propietario del comentario o un administrador
-        if (Auth::id() !== $comment->user_id && !Auth::user()->isAdmin()) {
-            return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+        $comment = Comment::find($commentId);
+    
+        if (!$comment) {
+            return redirect()->route('posts.index')->with('error', 'Comment not found');
         }
+    
+        // Verificar la autorización para eliminar el comentario
+        $this->authorize('delete', $comment);
     
         $comment->delete();
     
-        return response()->json(['message' => 'Comment deleted successfully'], Response::HTTP_NO_CONTENT);
+        return redirect()->route('posts.show', $postId)->with('success', 'Comment deleted successfully');
     }
 }
