@@ -38,4 +38,15 @@ class Place extends Model
     public function visibility() {
         return $this->belongsTo(Visibility::class);
     }
+
+    use HasSEO;
+
+    protected function getDynamicSEOData(): SEOData
+    {
+        return new SEOData(
+            title: $this->title,
+            description: $this->excerpt,
+            author: $this->author->fullName,
+        );
+    }
 }
